@@ -1,2 +1,2 @@
 # Furby Thoughts
-Make a Furby think
+Make a Furby thinking
