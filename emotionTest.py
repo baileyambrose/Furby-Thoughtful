@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import cv2
 from picamera2 import Picamera2, MappedArray
-from fer import FER
+from fer.fer import FER
 import time
 
 # Emotion detector (FER uses a CNN trained on FER2013)
