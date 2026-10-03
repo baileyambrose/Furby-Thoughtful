@@ -60,7 +60,7 @@ while True:
 
         # ROTATED frame (for processing)
         #proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
-
+        """
         # Face detection on rotated frame
         faces = face_detector.detectMultiScale(frame, 1.1, 5)
 
@@ -119,7 +119,7 @@ while True:
                           (orig_x, orig_y),
                           (orig_x + orig_w, orig_y + orig_h),
                           box_color, 2)
-
+        """
     finally:
         request.release()
 
