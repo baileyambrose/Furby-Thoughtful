@@ -33,7 +33,7 @@ DISPLAY_W, DISPLAY_H = 1080, 1920
 backgrounds = []
 for i in range(28):
     img = cv2.imread(f"HUD/hud-{i}.png", cv2.IMREAD_UNCHANGED)
-    img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    #img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
     img = cv2.resize(img, (DISPLAY_W, DISPLAY_H))
     backgrounds.append(img)
 
@@ -59,7 +59,7 @@ while True:
         frame = request.make_array('main')
 
         # ROTATED frame (for processing)
-        #proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+        proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
         """
         # Face detection on rotated frame
         faces = face_detector.detectMultiScale(frame, 1.1, 5)
@@ -126,7 +126,7 @@ while True:
         # --- Composite onto background ---
 
         # Scale upright camera frame
-        cam_scaled = cv2.resize(frame, (CAM_W, CAM_H))
+        cam_scaled = cv2.resize(proc, (CAM_W, CAM_H))
 
         # Copy background so original stays intact
         composed = backgrounds[index].copy()
