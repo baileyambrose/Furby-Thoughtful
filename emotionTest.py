@@ -60,6 +60,7 @@ while True:
 
         # ROTATED frame (for processing)
         proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+        proc = cv2.flip(proc, 1)
         """
         # Face detection on rotated frame
         faces = face_detector.detectMultiScale(frame, 1.1, 5)
