@@ -33,7 +33,7 @@ DISPLAY_W, DISPLAY_H = 1080, 1920
 backgrounds = []
 for i in range(28):
     img = cv2.imread(f"HUD/hud-{i}.png", cv2.IMREAD_UNCHANGED)
-    #img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
     img = cv2.resize(img, (DISPLAY_W, DISPLAY_H))
     backgrounds.append(img)
 
