@@ -29,17 +29,17 @@ cascade_path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
 face_detector = cv2.CascadeClassifier(cascade_path)
 
 # Load background
-DISPLAY_W, DISPLAY_H = 1920, 1080
+DISPLAY_W, DISPLAY_H = 1080, 1920
 backgrounds = []
 for i in range(28):
     img = cv2.imread(f"HUD/hud-{i}.png", cv2.IMREAD_UNCHANGED)
-    img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    #img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
     img = cv2.resize(img, (DISPLAY_W, DISPLAY_H))
     backgrounds.append(img)
 
 # Camera overlay size + position
 CAM_W, CAM_H = 1529, 860
-cam_x, cam_y = 20, 110
+cam_x, cam_y = 110, 371
 
 def drawline(frame, index, x,y):
     x_index = 0
@@ -59,16 +59,16 @@ while True:
         frame = request.make_array('main')
 
         # ROTATED frame (for processing)
-        proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+        #proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
 
         # Face detection on rotated frame
-        faces = face_detector.detectMultiScale(proc, 1.1, 5)
+        faces = face_detector.detectMultiScale(frame, 1.1, 5)
 
         # For each face, convert rotated coords ? original coords
         H, W = frame.shape[:2]
 
         for (xp, yp, wp, hp) in faces:
-            face_crop = proc[yp:yp+hp, xp:xp+wp]
+            face_crop = frame[yp:yp+hp, xp:xp+wp]
 
             face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
             face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
