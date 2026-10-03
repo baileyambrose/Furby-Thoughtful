@@ -38,7 +38,7 @@ for i in range(28):
     backgrounds.append(img)
 
 # Camera overlay size + position
-CAM_W, CAM_H = 1529, 860
+CAM_W, CAM_H = 860, 1529
 cam_x, cam_y = 110, 371
 
 def drawline(frame, index, x,y):
