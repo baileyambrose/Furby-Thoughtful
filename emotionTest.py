@@ -74,6 +74,7 @@ while True:
             face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
             
             face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
+            print(face_crop_rgb.shape)
         
             try:
                 emotion, score = emotion_detector.top_emotion(face_crop_rgb)
