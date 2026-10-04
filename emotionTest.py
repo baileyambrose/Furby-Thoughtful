@@ -70,8 +70,9 @@ while True:
         
         for (xp, yp, wp, hp) in faces:
             face_crop = proc[yp:yp+hp, xp:xp+wp]
-            """
+            
             face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
+            """
             face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
 
             try:
