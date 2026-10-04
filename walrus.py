@@ -3,6 +3,15 @@ from time import sleep
 import time
 import sounddevice as sd
 import soundfile as sf
+import cv2
+
+img = cv2.imread("magicalmysterytrour.png")
+
+cv2.namedWindow("fullscreen", cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty("fullscreen", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
+cv2.imshow("fullscreen", img)
+
 
 data, sr = sf.read("i_am_the_walrus.wav", dtype='float32')
 
@@ -112,6 +121,7 @@ for t, fn in song:
 
 
 motor.stop()
+cv2.destroyAllWindows()
 
 # Wait until playback finishes
 sd.wait()
