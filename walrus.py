@@ -5,7 +5,7 @@ import sounddevice as sd
 import soundfile as sf
 import cv2
 
-img = cv2.imread("magicalmysterytour.jpg")
+img = cv2.imread("magicalmysterytour.png")
 
 # Check if the JPG actually loaded
 if img is None:
