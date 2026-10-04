@@ -114,7 +114,6 @@ motor.stop()
 
 # Wait until playback finishes
 #sd.wait()
-sleep(2)
+sleep(.5)
 
-cv2.destroyAllWindows()
 print("Done playing")
