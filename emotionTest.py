@@ -6,7 +6,7 @@ import time
 import numpy as np
 
 # Emotion detector (FER uses a CNN trained on FER2013)
-emotion_detector = FER(mtcnn=True)
+emotion_detector = FER(mtcnn=False)
 
 picam2 = Picamera2()
 config = picam2.create_preview_configuration(
