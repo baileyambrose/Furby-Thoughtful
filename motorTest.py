@@ -7,18 +7,20 @@ button = Button(12, pull_up=True)
 
 print("Motor test starting...")
 
-print("Forward...")
-motor.backward(.5)
-sleep(0.2)
-motor.forward()
-button.wait_for_press()
+for i in range(5):
+    print(f"{i} Forward...")
+    motor.forward()
+    sleep(0.2)
+    button.wait_for_press()
 
-print("Stop...")
-# Manual brake: both inputs HIGH
-motor.forward_device.on()
-motor.backward_device.on()
-sleep(1.5)
+    print(f"{i} Stop...")
+    # Manual brake: both inputs HIGH
+    motor.forward_device.on()
+    motor.backward_device.on()
+    sleep(1.5)
 
+
+"""
 print("Backward...")
 motor.backward(.5)
 sleep(0.3)
@@ -29,4 +31,5 @@ print("Stop...")
 motor.forward_device.on()
 motor.backward_device.on()
 sleep(1)
+"""
 motor.stop()
