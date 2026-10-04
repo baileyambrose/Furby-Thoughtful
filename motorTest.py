@@ -3,7 +3,7 @@ from time import sleep
 
 # Motor(IN1, IN2, enable=EN)
 motor = Motor(20, 21, enable=16)
-button = Button(12, pull_up=True)
+button = Button(12, pull_up=True, bounce_time=0.05)
 
 print("Motor test starting...")
 
@@ -12,7 +12,6 @@ for i in range(5):
     motor.forward(.5)
     sleep(0.2)
     button.wait_for_press()
-    button.wait_for_release()
 
     print(f"{i} Stop...")
     # Manual brake: both inputs HIGH
