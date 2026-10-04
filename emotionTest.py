@@ -70,7 +70,7 @@ while True:
         
         for (xp, yp, wp, hp) in faces:
             face_crop = proc[yp:yp+hp, xp:xp+wp]
-
+            """
             face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
             face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
 
@@ -104,7 +104,7 @@ while True:
             orig_h = wp
 
             box_color = (150,150,150)
-            """
+            
             if label != "error":
                 cv2.putText(proc, label, (orig_x, orig_y - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
