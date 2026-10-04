@@ -74,7 +74,7 @@ while True:
             face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
             
             face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
-            """
+        
             try:
                 emotion, score = emotion_detector.top_emotion(face_crop_rgb)
                 label = f"{emotion} ({score:.2f})"
@@ -98,7 +98,7 @@ while True:
             except:
                 label = "error"
             
-            
+            """
             orig_x = yp
             orig_y = H - (xp + wp)
             orig_w = hp
