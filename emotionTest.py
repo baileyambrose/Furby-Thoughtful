@@ -101,10 +101,10 @@ while True:
             except:
                 label = "error"
             
-            orig_x = yp
-            orig_y = H - (xp + wp)
-            orig_w = hp
-            orig_h = wp
+            orig_x = xp
+            orig_y = yp
+            orig_w = wp
+            orig_h = hp
 
             box_color = (150,150,150)
             
