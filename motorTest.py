@@ -12,6 +12,7 @@ for i in range(5):
     motor.forward(.5)
     sleep(0.2)
     button.wait_for_press()
+    button.wait_for_press()
 
     print(f"{i} Stop...")
     # Manual brake: both inputs HIGH
