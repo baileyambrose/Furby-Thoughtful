@@ -61,15 +61,15 @@ while True:
         # ROTATED frame (for processing)
         proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
         proc = cv2.flip(proc, 1)
-        """
+        
         # Face detection on rotated frame
-        faces = face_detector.detectMultiScale(frame, 1.1, 5)
+        faces = face_detector.detectMultiScale(proc, 1.1, 5)
 
         # For each face, convert rotated coords ? original coords
-        H, W = frame.shape[:2]
+        H, W = proc.shape[:2]
 
         for (xp, yp, wp, hp) in faces:
-            face_crop = frame[yp:yp+hp, xp:xp+wp]
+            face_crop = proc[yp:yp+hp, xp:xp+wp]
 
             face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
             face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
@@ -106,21 +106,21 @@ while True:
             box_color = (150,150,150)
 
             if label != "error":
-                cv2.putText(frame, label, (orig_x, orig_y - 10),
+                cv2.putText(proc, label, (orig_x, orig_y - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
                         
                 box_end = orig_y
                 if index < 14:
                     box_end = orig_y+orig_h
-                drawline(frame, index, orig_x + orig_w//2, box_end)
+                drawline(proc, index, orig_x + orig_w//2, box_end)
                 
                 box_color = (255,255,255)
             
-            cv2.rectangle(frame,
+            cv2.rectangle(proc,
                           (orig_x, orig_y),
                           (orig_x + orig_w, orig_y + orig_h),
                           box_color, 2)
-        """
+        
     finally:
         request.release()
 
