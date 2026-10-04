@@ -8,7 +8,7 @@ button = Button(12, pull_up=True)
 print("Motor test starting...")
 
 print("Forward...")
-motor.backward()
+motor.backward(.5)
 sleep(0.2)
 motor.forward()
 button.wait_for_press()
@@ -20,7 +20,7 @@ motor.backward_device.on()
 sleep(1.5)
 
 print("Backward...")
-motor.backward()
+motor.backward(.5)
 sleep(0.3)
 
 button.wait_for_press()
