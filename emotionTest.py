@@ -75,11 +75,11 @@ while True:
             face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
             
             face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
-            face_crop_rgb = np.ascontiguousarray(face_crop_rgb, dtype=np.uint8)
-            safe_img = face_crop_rgb.copy()
+            #face_crop_rgb = np.ascontiguousarray(face_crop_rgb, dtype=np.uint8)
+            #safe_img = face_crop_rgb.copy()
         
             try:
-                emotion, score = emotion_detector.top_emotion(safe_img)
+                emotion, score = emotion_detector.top_emotion(face_crop_rgb)
                 label = f"{emotion} ({score:.2f})"
                 
                 index = int(score *4)
