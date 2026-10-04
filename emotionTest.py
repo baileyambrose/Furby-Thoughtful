@@ -3,6 +3,7 @@ import cv2
 from picamera2 import Picamera2, MappedArray
 from fer.fer import FER
 import time
+import numpy as np
 
 # Emotion detector (FER uses a CNN trained on FER2013)
 emotion_detector = FER(mtcnn=True)
@@ -74,10 +75,11 @@ while True:
             face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
             
             face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
-            print(face_crop_rgb.shape)
+            face_crop_rgb = np.ascontiguousarray(face_crop_rgb, dtype=np.uint8)
+            safe_img = face_crop_rgb.copy()
         
             try:
-                emotion, score = emotion_detector.top_emotion(face_crop_rgb)
+                emotion, score = emotion_detector.top_emotion(safe_img)
                 label = f"{emotion} ({score:.2f})"
                 
                 index = int(score *4)
