@@ -14,7 +14,16 @@ if img is None:
 cv2.namedWindow("fullscreen", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("fullscreen", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-cv2.imshow("fullscreen", img)
+# Optionally scale image to screen size
+screen_res = 1080, 1920  # change if needed
+scale_width = screen_res[0] / img.shape[1]
+scale_height = screen_res[1] / img.shape[0]
+scale = min(scale_width, scale_height)
+window_width = int(img.shape[1] * scale)
+window_height = int(img.shape[0] * scale)
+img_resized = cv2.resize(img, (window_width, window_height))
+
+cv2.imshow("fullscreen", img_resized)
 
 
 data, sr = sf.read("i_am_the_walrus.wav", dtype='float32')
