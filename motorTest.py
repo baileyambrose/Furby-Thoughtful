@@ -9,7 +9,7 @@ print("Motor test starting...")
 
 for i in range(5):
     print(f"{i} Forward...")
-    motor.forward(.2)
+    motor.forward(.4)
     sleep(0.2)
     button.wait_for_press()
 
