@@ -5,7 +5,7 @@ import sounddevice as sd
 import soundfile as sf
 import cv2
 
-img = cv2.imread("magicalmysterytrour.jpg")
+img = cv2.imread("magicalmysterytour.jpg")
 
 cv2.namedWindow("fullscreen", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("fullscreen", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
