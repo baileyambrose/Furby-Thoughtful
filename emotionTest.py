@@ -101,7 +101,6 @@ while True:
             except:
                 label = "error"
             
-            """
             orig_x = yp
             orig_y = H - (xp + wp)
             orig_w = hp
@@ -124,7 +123,7 @@ while True:
                           (orig_x, orig_y),
                           (orig_x + orig_w, orig_y + orig_h),
                           box_color, 2)
-            """
+            
     finally:
         request.release()
 
