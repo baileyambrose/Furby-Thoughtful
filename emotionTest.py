@@ -67,7 +67,7 @@ while True:
 
         # For each face, convert rotated coords ? original coords
         H, W = proc.shape[:2]
-        """
+        
         for (xp, yp, wp, hp) in faces:
             face_crop = proc[yp:yp+hp, xp:xp+wp]
 
@@ -104,7 +104,7 @@ while True:
             orig_h = wp
 
             box_color = (150,150,150)
-
+            """
             if label != "error":
                 cv2.putText(proc, label, (orig_x, orig_y - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
@@ -120,7 +120,7 @@ while True:
                           (orig_x, orig_y),
                           (orig_x + orig_w, orig_y + orig_h),
                           box_color, 2)
-        """
+            """
     finally:
         request.release()
 
