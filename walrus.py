@@ -16,7 +16,7 @@ sd.default.channels = 1               # mono
 
 # Motor(IN1, IN2, enable=EN)
 motor = Motor(20, 21, enable=16)
-button = Button(12, pull_up=True)
+button = Button(12, pull_up=True, bounce_time=0.001)
 
 def calibrate():
 	motor.forward(0.4)
