@@ -7,6 +7,10 @@ import cv2
 
 img = cv2.imread("magicalmysterytour.jpg")
 
+# Check if the JPG actually loaded
+if img is None:
+    raise ValueError("Image failed to load. Check the path or filename.")
+
 cv2.namedWindow("fullscreen", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("fullscreen", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
@@ -118,12 +122,11 @@ for t, fn in song:
     fn()
 
 
-
-
 motor.stop()
-cv2.destroyAllWindows()
 
 # Wait until playback finishes
-sd.wait()
+#sd.wait()
+sleep(2)
 
+cv2.destroyAllWindows()
 print("Done playing")
