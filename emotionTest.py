@@ -14,8 +14,8 @@ config = picam2.create_preview_configuration(
     display="main",
 )
 
-for mode in picam2.sensor_modes:
-    print(mode)
+#for mode in picam2.sensor_modes:
+    #print(mode)
     
 picam2.configure(config)
 picam2.start()
@@ -67,7 +67,7 @@ while True:
 
         # For each face, convert rotated coords ? original coords
         H, W = proc.shape[:2]
-
+        """
         for (xp, yp, wp, hp) in faces:
             face_crop = proc[yp:yp+hp, xp:xp+wp]
 
@@ -120,7 +120,7 @@ while True:
                           (orig_x, orig_y),
                           (orig_x + orig_w, orig_y + orig_h),
                           box_color, 2)
-        
+        """
     finally:
         request.release()
 
