@@ -191,10 +191,12 @@ while True:
         if sustained and not triggered:
             print("Triggered:", sustained)
 
-            play_sound('neutral0')
+            play_sound(f"{dominant_emotion[0]}0")
             triggered = True
             sustained = None
-            
+        elif not sd.get_stream().active:
+            triggered = False
+
     finally:
         request.release()
 
