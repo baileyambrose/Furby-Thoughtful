@@ -19,12 +19,12 @@ HOLD_TIME = 1.0
 triggered = False
 
 sound_folder = "sounds"
-sounds = []
+sounds = {}
 for fname in os.listdir(sound_folder):
     if fname.lower().endswith(".mp3"):
         path = os.path.join(sound_folder, fname)
         data, sr = sf.read(path, dtype='float32')
-        sounds.append((fname, data, sr))
+        sounds[fname] = {"data":data, "sr":sr}
         print(f"{fname}, {sr}")
 
 sd.default.latency = ('low', 'low')   # request smallest buffers
@@ -96,7 +96,6 @@ def play_sound(name):
     name += ".mp3"
     if name not in sounds:
         print(f"Sound '{name}' not found in audio bank.")
-        print(sounds)
         return False
 
     entry = sounds[name]
