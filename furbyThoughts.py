@@ -93,7 +93,7 @@ while True:
         # For each face, convert rotated coords ? original coords
         H, W = proc.shape[:2]
 
-        dominant_emotion = {None,0.0}
+        dominant_emotion = [None,0.0]
 
         for (xp, yp, wp, hp) in faces:
             face_crop = proc[yp:yp+hp, xp:xp+wp]
