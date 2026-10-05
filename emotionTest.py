@@ -48,7 +48,7 @@ def drawline(frame, index, x,y):
         x_index = 720
     y_index = 211 + 93.3757 * (index % 14)
     #print(int(y_index))
-    cv2.line(frame, (x, y), (int(x_index), y_index), (255,255,255),2)#1150
+    cv2.line(frame, (x, y), (int(x_index), int(y_index)), (255,255,255),2)#1150
 
 while True:
     request = picam2.capture_request()
