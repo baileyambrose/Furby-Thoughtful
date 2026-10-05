@@ -92,6 +92,7 @@ def process_emotion(emotion):
     return None
 
 def play_sound(name,sounds):
+    name += ".mp3"
     if name not in sounds:
         print(f"Sound '{name}' not found in audio bank.")
         return False
