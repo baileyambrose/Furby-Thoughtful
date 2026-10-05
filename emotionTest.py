@@ -107,6 +107,7 @@ while True:
             orig_h = hp
 
             box_color = (150,150,150)
+            box_linewidth = 1
             
             if label != "error":
                 cv2.putText(proc, label, (orig_x, orig_y - 10),
@@ -118,11 +119,12 @@ while True:
                 drawline(proc, index, box_end, orig_y + orig_h//2)
                 
                 box_color = (255,255,255)
+                box_linewidth = 2
             
             cv2.rectangle(proc,
                           (orig_x, orig_y),
                           (orig_x + orig_w, orig_y + orig_h),
-                          box_color, 2)
+                          box_color, box_linewidth)
             
     finally:
         request.release()
