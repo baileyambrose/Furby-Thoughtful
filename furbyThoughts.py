@@ -159,8 +159,7 @@ while True:
                           box_color, box_linewidth)
 
         sustained = process_emotion(dominant_emotion[0])
-        cv2.putText(proc, dominant_emotion[0], (450, 180),
-                                cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 2)
+        
         if sustained:
             print("Triggered:", sustained)
             sustained = None
@@ -178,6 +177,9 @@ while True:
 
         # Overlay scaled camera feed onto background
         composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
+
+        cv2.putText(composed, "Test", (450, 180),
+                cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 2)#dominant_emotion[0]
         
         
         # Display final composed frame
