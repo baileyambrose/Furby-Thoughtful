@@ -67,6 +67,9 @@ def process_emotion(emotion):
         emotion_start_time = time.time()
         return None
 
+    if emotion_start_time is None:
+        emotion_start_time = time.time()
+        
     # If same emotion, check duration
     elapsed = time.time() - emotion_start_time
     if elapsed >= HOLD_TIME:
