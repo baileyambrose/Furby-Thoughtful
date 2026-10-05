@@ -92,7 +92,9 @@ while True:
 
         # For each face, convert rotated coords ? original coords
         H, W = proc.shape[:2]
-        
+
+        dominant_emotion = {None,0.0}
+
         for (xp, yp, wp, hp) in faces:
             face_crop = proc[yp:yp+hp, xp:xp+wp]
             
@@ -106,7 +108,9 @@ while True:
                 emotion, score = emotion_detector.top_emotion(face_crop_rgb)
                 label = f"{emotion} ({score:.2f})"
 
-                sustained = process_emotion(emotion)
+                if hp > dominant_emotion[1]:
+                    dominant_emotion[0] = emotion
+                    dominant_emotion[1] = hp
                 
                 index = int(score *4)
                 if emotion == "neutral":
@@ -154,9 +158,11 @@ while True:
                           (orig_x + orig_w, orig_y + orig_h),
                           box_color, box_linewidth)
 
-            if sustained:
-                print("Triggered:", sustained)
-                sustained = None
+        sustained = process_emotion(dominant_emotion[0])
+        print(f"{dominant_emotion}")
+        if sustained:
+            print("Triggered:", sustained)
+            sustained = None
             
     finally:
         request.release()
