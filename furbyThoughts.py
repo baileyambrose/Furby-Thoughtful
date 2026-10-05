@@ -18,14 +18,64 @@ emotion_start_time = None
 HOLD_TIME = 1.0   
 triggered = False
 
-sound_folder = "sounds"
-sounds = {}
-for fname in os.listdir(sound_folder):
-    if fname.lower().endswith(".mp3"):
-        path = os.path.join(sound_folder, fname)
-        data, sr = sf.read(path, dtype='float32')
-        sounds[fname] = {"data":data, "sr":sr}
-        print(f"{fname}, {sr}")
+sound_folder = "sounds/"
+class AudioBank:
+    def __init__(self, folder):
+        self.sounds = {}
+        self.stream = None
+        self.remaining = None
+
+        # Load supported audio formats
+        exts = (".wav", ".mp3", ".flac", ".ogg")
+        for fname in os.listdir(folder):
+            if fname.lower().endswith(exts):
+                path = os.path.join(folder, fname)
+                data, sr = sf.read(path, dtype='float32')
+                key = fname.lower().strip()
+                self.sounds[key] = (data, sr)
+
+    def play(self, name):
+        name += ".mp3"
+        key = name.lower().strip()
+        if key not in self.sounds:
+            print(f"Sound '{name}' not found in audio bank.")
+            return False
+
+        data, sr = self.sounds[key]
+
+        # Prepare playback buffer
+        self.remaining = np.copy(data)
+
+        # Determine channel count
+        channels = data.shape[1] if data.ndim > 1 else 1
+
+        # Create a controllable OutputStream
+        self.stream = sd.OutputStream(
+            samplerate=sr,
+            channels=channels,
+            callback=self._callback
+        )
+
+        self.stream.start()
+        return True
+
+    def _callback(self, outdata, frames, time, status):
+        if len(self.remaining) == 0:
+            outdata[:] = np.zeros((frames, outdata.shape[1]))
+            raise sd.CallbackStop
+
+        chunk = self.remaining[:frames]
+        outdata[:len(chunk)] = chunk
+
+        if len(chunk) < frames:
+            outdata[len(chunk):] = 0
+            self.remaining = np.empty((0,))
+        else:
+            self.remaining = self.remaining[frames:]
+
+    def is_playing(self):
+        return self.stream is not None and self.stream.active
+sound_player = AudioBank(sound_folder)
 
 sd.default.latency = ('low', 'low')   # request smallest buffers
 sd.default.blocksize = 256            # tiny block size
@@ -91,16 +141,6 @@ def process_emotion(emotion):
         return emotion   # sustained emotion detected
 
     return None
-
-def play_sound(name):
-    name += ".mp3"
-    if name not in sounds:
-        print(f"Sound '{name}' not found in audio bank.")
-        return False
-
-    entry = sounds[name]
-    sd.play(entry["data"], entry["sr"])   # non-blocking
-    return True
 
 while True:
     request = picam2.capture_request()
@@ -191,10 +231,10 @@ while True:
         if sustained and not triggered:
             print("Triggered:", sustained)
 
-            play_sound(f"{dominant_emotion[0]}0")
+            sound_player.play(f"{dominant_emotion[0]}0")
             triggered = True
             sustained = None
-        elif not sd.get_stream().active:
+        elif not sound_player.is_playing():
             triggered = False
 
     finally:
