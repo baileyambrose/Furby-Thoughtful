@@ -159,7 +159,8 @@ while True:
                           box_color, box_linewidth)
 
         sustained = process_emotion(dominant_emotion[0])
-        print(f"{dominant_emotion}")
+        cv2.putText(proc, dominant_emotion[0], (450, 180),
+                                cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 2)
         if sustained:
             print("Triggered:", sustained)
             sustained = None
@@ -183,7 +184,6 @@ while True:
         cv2.imshow("Emotion Detection", composed)
         
         time.sleep(0.05)
-        print(f"{dominant_emotion}")
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
