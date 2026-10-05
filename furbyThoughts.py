@@ -105,8 +105,7 @@ while True:
             try:
                 emotion, score = emotion_detector.top_emotion(face_crop_rgb)
                 label = f"{emotion} ({score:.2f})"
-                print(f"{emotion}")
-                print("test")
+
                 sustained = process_emotion(emotion)
                 
                 index = int(score *4)
@@ -147,6 +146,8 @@ while True:
                 
                 box_color = (255,255,255)
                 box_linewidth = 2
+                if sustained:
+                    box_color = (0,255,0)
             
             cv2.rectangle(proc,
                           (orig_x, orig_y),
