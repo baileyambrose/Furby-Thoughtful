@@ -91,6 +91,15 @@ def process_emotion(emotion):
 
     return None
 
+def play_sound(name,sounds):
+    if name not in sounds:
+        print(f"Sound '{name}' not found in audio bank.")
+        return False
+
+    entry = sounds[name]
+    sd.play(entry["data"], entry["sr"])   # non-blocking
+    return True
+
 while True:
     request = picam2.capture_request()
     
@@ -180,7 +189,7 @@ while True:
         if sustained and not triggered:
             print("Triggered:", sustained)
 
-            sd.play(sounds[0], sr, blocking=False)
+            play_sound("neutral0",sounds)
             triggered = True
             sustained = None
             
