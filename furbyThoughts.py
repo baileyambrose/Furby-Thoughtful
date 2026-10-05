@@ -25,6 +25,7 @@ for fname in os.listdir(sound_folder):
         path = os.path.join(sound_folder, fname)
         data, sr = sf.read(path, dtype='float32')
         sounds.append((fname, data, sr))
+print(f"{sounds}")
 
 sd.default.latency = ('low', 'low')   # request smallest buffers
 sd.default.blocksize = 256            # tiny block size
