@@ -183,6 +183,7 @@ while True:
         cv2.imshow("Emotion Detection", composed)
         
         time.sleep(0.05)
+        print(f"{dominant_emotion}")
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
