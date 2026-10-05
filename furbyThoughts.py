@@ -5,6 +5,7 @@ from fer.fer import FER
 import time
 import numpy as np
 
+import os
 from gpiozero import Motor, Button
 from time import sleep
 import sounddevice as sd
@@ -15,6 +16,19 @@ emotion_detector = FER(mtcnn=False)
 current_emotion = None
 emotion_start_time = None
 HOLD_TIME = 1.0   
+triggered = False
+
+sound_folder = "sounds"
+sounds = []
+for fname in os.listdir(sound_folder):
+    if fname.lower().endswith(".mp3"):
+        path = os.path.join(sound_folder, fname)
+        data, sr = sf.read(path, dtype='float32')
+        sounds.append((fname, data, sr))
+
+sd.default.latency = ('low', 'low')   # request smallest buffers
+sd.default.blocksize = 256            # tiny block size
+sd.default.channels = 1               # mono
 
 picam2 = Picamera2()
 config = picam2.create_preview_configuration(
@@ -69,7 +83,7 @@ def process_emotion(emotion):
 
     if emotion_start_time is None:
         emotion_start_time = time.time()
-        
+
     # If same emotion, check duration
     elapsed = time.time() - emotion_start_time
     if elapsed >= HOLD_TIME:
@@ -163,8 +177,11 @@ while True:
 
         sustained = process_emotion(dominant_emotion[0])
         
-        if sustained:
+        if sustained and not triggered:
             print("Triggered:", sustained)
+
+            sd.play(sounds[0], sr, blocking=False)
+            triggered = True
             sustained = None
             
     finally:
@@ -181,7 +198,7 @@ while True:
         # Overlay scaled camera feed onto background
         composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
 
-        cv2.putText(composed, "Test", (450, 180),
+        cv2.putText(composed, dominant_emotion[0], (450, 180),
                 cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 2)#dominant_emotion[0]
         
         
