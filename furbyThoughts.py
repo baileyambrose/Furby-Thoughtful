@@ -25,7 +25,7 @@ for fname in os.listdir(sound_folder):
         path = os.path.join(sound_folder, fname)
         data, sr = sf.read(path, dtype='float32')
         sounds.append((fname, data, sr))
-print(f"{sounds}")
+        print(f"{fname}, {sr}")
 
 sd.default.latency = ('low', 'low')   # request smallest buffers
 sd.default.blocksize = 256            # tiny block size
@@ -92,7 +92,7 @@ def process_emotion(emotion):
 
     return None
 
-def play_sound(name,sounds):
+def play_sound(name):
     name += ".mp3"
     if name not in sounds:
         print(f"Sound '{name}' not found in audio bank.")
@@ -191,7 +191,7 @@ while True:
         if sustained and not triggered:
             print("Triggered:", sustained)
 
-            play_sound("neutral0",sounds)
+            play_sound('neutral0')
             triggered = True
             sustained = None
             
