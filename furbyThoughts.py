@@ -65,6 +65,11 @@ class AudioBank:
             raise sd.CallbackStop
 
         chunk = self.remaining[:frames]
+
+        #reshape mono audio to (frames, 1)
+        if chunk.ndim == 1:
+            chunk = chunk.reshape(-1, 1)
+
         outdata[:len(chunk)] = chunk
 
         if len(chunk) < frames:
