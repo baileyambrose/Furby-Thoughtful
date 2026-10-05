@@ -44,7 +44,7 @@ cam_x, cam_y = 110, 371
 
 def drawline(frame, index, x,y):
     x_index = 0
-    if index < 14:
+    if index > 14:
         x_index = 720
     y_index = 211 + 93.3757 * (index % 14)
     #print(int(y_index))
@@ -113,9 +113,9 @@ while True:
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
                         
                 box_end = orig_x
-                if index < 14:
+                if index > 14:
                     box_end = orig_x+orig_w
-                drawline(proc, index, orig_y + orig_h//2, box_end)
+                drawline(proc, index, box_end, orig_y + orig_h//2)
                 
                 box_color = (255,255,255)
             
