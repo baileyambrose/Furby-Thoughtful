@@ -46,9 +46,9 @@ def drawline(frame, index, x,y):
     x_index = 0
     if index < 14:
         x_index = 720
-    y_index = 33.9529 + 93.3757 * (index % 14)
+    y_index = 211 + 93.3757 * (index % 14)
     #print(int(y_index))
-    cv2.line(frame, (x, y), (int(y_index), x_index), (255,255,255),2)#1150
+    cv2.line(frame, (x, y), (int(x_index), y_index), (255,255,255),2)#1150
 
 while True:
     request = picam2.capture_request()
@@ -112,10 +112,10 @@ while True:
                 cv2.putText(proc, label, (orig_x, orig_y - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
                         
-                box_end = orig_y
+                box_end = orig_x
                 if index < 14:
-                    box_end = orig_y+orig_h
-                drawline(proc, index, orig_x + orig_w//2, box_end)
+                    box_end = orig_x+orig_w
+                drawline(proc, index, orig_y + orig_h//2, box_end)
                 
                 box_color = (255,255,255)
             
