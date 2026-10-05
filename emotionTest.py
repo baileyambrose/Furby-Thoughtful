@@ -46,7 +46,7 @@ def drawline(frame, index, x,y):
     x_index = 0
     if index > 14:
         x_index = 720
-    y_index = 211 + 93.3757 * (index % 14)
+    y_index = 33 + 93.3757 * (index % 14)
     #print(int(y_index))
     cv2.line(frame, (x, y), (int(x_index), int(y_index)), (255,255,255),2)#1150
 
