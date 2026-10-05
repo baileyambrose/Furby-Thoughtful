@@ -105,7 +105,7 @@ while True:
             try:
                 emotion, score = emotion_detector.top_emotion(face_crop_rgb)
                 label = f"{emotion} ({score:.2f})"
-                print(emotion)
+                print(f"{emotion}")
                 sustained = process_emotion(emotion)
                 
                 index = int(score *4)
