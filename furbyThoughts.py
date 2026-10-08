@@ -161,6 +161,8 @@ def drawtext(frame, emotion):
         text = " ".join(words[:num_words])
         # Split into lines
         lines = text.split("\n")
+        print(words)
+        print(text)
         print(lines)
         for i, line in enumerate(lines):
             cv2.putText(frame, line, (450,90 + i*70),
