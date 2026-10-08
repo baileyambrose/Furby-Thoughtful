@@ -23,7 +23,8 @@ trigger_emotion = None
 
 sound_folder = "sounds/"
 
-dialogue = {"happy0":"You look happy!\nI'm happy you're happy!"}
+dialogue = {"neutral0":"You look so\nbored",
+            "happy0":"You look happy!\nI'm happy you're\nhappy!"}
 
 class AudioBank:
     def __init__(self, folder):
