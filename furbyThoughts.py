@@ -23,7 +23,7 @@ trigger_emotion = None
 
 sound_folder = "sounds/"
 
-dialogue = {"neutral0":"You look so\nbored",
+dialogue = {"neutral0":"Furby thinks you\nlook so bored",
             "happy0":"You look happy!\nI'm happy you're\nhappy!"}
 
 class AudioBank:
@@ -196,7 +196,7 @@ while True:
         #grayscale lores frame for detection
     try:
         sustained = None
-        
+
         # ORIGINAL frame (for display)
         frame = request.make_array('main')
 
