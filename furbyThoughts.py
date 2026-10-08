@@ -152,7 +152,7 @@ def drawtext(frame, emotion):
     if emotion is None:
         return
     if emotion in dialogue:
-        words = dialogue[emotion].slipt()
+        words = dialogue[emotion].split()
         progress = sound_player.get_progress()
         num_words = int(len(words) * progress)
         text = " ".join(words[:num_words])
