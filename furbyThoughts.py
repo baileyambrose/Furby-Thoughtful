@@ -18,7 +18,12 @@ emotion_start_time = None
 HOLD_TIME = 1.0   
 triggered = False
 
+trigger_emotion = None
+
 sound_folder = "sounds/"
+
+dialogue = {"happy0":"You look happy! I'm happy you're happy!"}
+
 class AudioBank:
     def __init__(self, folder):
         self.sounds = {}
@@ -80,6 +85,21 @@ class AudioBank:
 
     def is_playing(self):
         return self.stream is not None and self.stream.active
+
+    def get_progress(self):
+        if self.remaining is None or self.stream is None:
+            return 0.0
+
+        # total samples (mono or stereo)
+        total = self.total_samples
+
+        # remaining samples
+        remaining = len(self.remaining)
+
+        # fraction played
+        played = 1.0 - (remaining / total)
+        return max(0.0, min(1.0, played))
+    
 sound_player = AudioBank(sound_folder)
 
 sd.default.latency = ('low', 'low')   # request smallest buffers
@@ -127,6 +147,17 @@ def drawline(frame, index, x,y):
     y_index = 33 + 93.3757 * (index % 14)
     #print(int(y_index))
     cv2.line(frame, (x, y), (int(x_index), int(y_index)), (255,255,255),2)#1150
+def drawtext(frame, emotion):
+    global dialogue
+    if emotion is None:
+        return
+    if emotion in dialogue:
+        words = dialogue[emotion].slipt()
+        progress = sound_player.get_progress()
+        num_words = int(len(words) * progress)
+        text = " ".join(words[:num_words])
+        cv2.putText(frame, text, (orig_x, orig_y - 10),
+            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
 def process_emotion(emotion):
     global current_emotion, emotion_start_time
@@ -237,10 +268,12 @@ while True:
             print("Triggered:", sustained)
 
             sound_player.play(f"{dominant_emotion[0]}0")
+            trigger_emotion = f"{dominant_emotion[0]}0"
             triggered = True
             sustained = None
         elif not sound_player.is_playing():
             triggered = False
+            trigger_emotion = None
 
     finally:
         request.release()
@@ -256,9 +289,7 @@ while True:
         # Overlay scaled camera feed onto background
         composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
 
-        cv2.putText(composed, dominant_emotion[0], (450, 180),
-                cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 2)#dominant_emotion[0]
-        
+        drawtext(composed, trigger_emotion)
         
         # Display final composed frame
         cv2.imshow("Emotion Detection", composed)
