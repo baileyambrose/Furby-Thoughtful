@@ -158,8 +158,8 @@ def drawtext(frame, emotion):
         progress = sound_player.get_progress()
         num_words = int(len(words) * progress)
         text = " ".join(words[:num_words])
-        cv2.putText(frame, text, (orig_x, orig_y - 10),
-            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+        cv2.putText(frame, text, (450,70),
+            cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 2)
 
 def process_emotion(emotion):
     global current_emotion, emotion_start_time
