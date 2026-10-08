@@ -22,7 +22,7 @@ trigger_emotion = None
 
 sound_folder = "sounds/"
 
-dialogue = {"happy0":"You look happy! I'm happy you're happy!"}
+dialogue = {"happy0":"You look\n happy! I'm happy you're happy!"}
 
 class AudioBank:
     def __init__(self, folder):
@@ -158,8 +158,8 @@ def drawtext(frame, emotion):
         progress = sound_player.get_progress()
         num_words = int(len(words) * progress)
         text = " ".join(words[:num_words])
-        cv2.putText(frame, text, (450,70),
-            cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 2)
+        cv2.putText(frame, text, (450,90),
+            cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 3)
 
 def process_emotion(emotion):
     global current_emotion, emotion_start_time
