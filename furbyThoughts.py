@@ -156,6 +156,7 @@ def drawtext(frame, emotion):
     if emotion in dialogue:
         words = dialogue[emotion].split()
         progress = sound_player.get_progress()
+        progress = min(1.1*progress + 0.1, 1.0)
         num_words = int(len(words) * progress)
         text = " ".join(words[:num_words])
         cv2.putText(frame, text, (450,90),
