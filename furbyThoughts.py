@@ -162,7 +162,7 @@ def drawtext(frame, emotion):
         # Split into lines
         lines = text.split("\n")
         for i, line in enumerate(lines):
-            cv2.putText(frame, text, (450,90 + i*70),
+            cv2.putText(frame, line, (450,90 + i*70),
                 cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 3)
 
 def process_emotion(emotion):
