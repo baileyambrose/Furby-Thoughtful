@@ -10,6 +10,7 @@ from gpiozero import Motor, Button
 from time import sleep
 import sounddevice as sd
 import soundfile as sf
+import re
 
 # Emotion detector (FER uses a CNN trained on FER2013)
 emotion_detector = FER(mtcnn=False)
@@ -22,7 +23,7 @@ trigger_emotion = None
 
 sound_folder = "sounds/"
 
-dialogue = {"happy0":"You look happy! \nI'm happy you're happy!"}
+dialogue = {"happy0":"You look happy!\nI'm happy you're happy!"}
 
 class AudioBank:
     def __init__(self, folder):
@@ -154,16 +155,16 @@ def drawtext(frame, emotion):
     if emotion is None:
         return
     if emotion in dialogue:
-        words = dialogue[emotion].split()
+        tokens = re.split(r'(\s+)', dialogue[emotion])
         progress = sound_player.get_progress()
         progress = min(1.1*progress + 0.1, 1.0)
-        num_words = int(len(words) * progress)
-        text = " ".join(words[:num_words])
+        num_tokens = int(len(tokens) * progress)
+        text = "".join(tokens[:num_tokens])
         # Split into lines
         lines = text.split("\n")
-        print(words)
-        print(text)
-        print(lines)
+        #print(tokens)
+        #print(text)
+        #print(lines)
         for i, line in enumerate(lines):
             cv2.putText(frame, line, (450,90 + i*70),
                 cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 3)
