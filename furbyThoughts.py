@@ -195,6 +195,8 @@ while True:
     index = 0
         #grayscale lores frame for detection
     try:
+        sustained = None
+        
         # ORIGINAL frame (for display)
         frame = request.make_array('main')
 
