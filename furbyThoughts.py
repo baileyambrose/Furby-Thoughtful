@@ -48,6 +48,8 @@ class AudioBank:
 
         data, sr = self.sounds[key]
 
+        self.total_samples = len(data)
+
         # Prepare playback buffer
         self.remaining = np.copy(data)
 
