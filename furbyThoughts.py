@@ -130,10 +130,10 @@ class FurbyMotor:
         self.motor.forward()
 
     def open_mouth(self):
-        self._start_opening(0.14)
+        self._start_opening(0.19)
 
     def open_close_mouth_blink(self):
-        self._start_opening(0.34)
+        self._start_opening(0.39)
 
     def close_mouth(self):
         self._start_closing()
@@ -279,15 +279,15 @@ dialogue = {"neutral0":"Furby thinks you\nlook so bored",
 sequences = {
     "neutral0": [
         (0.0, furby.open_mouth),
-        (0.2, furby.close_mouth),
-        (0.4, furby.open_mouth),
-        (0.6, furby.close_mouth),
-        (0.8, furby.open_close_mouth_blink),
-        (1.2, furby.close_mouth),
-        (1.4, furby.open_mouth),
-        (1.6, furby.close_mouth),
-        (1.8, furby.open_mouth),
-        (2.0, furby.close_mouth),
+        (0.25, furby.close_mouth),
+        (0.5, furby.open_mouth),
+        (0.75, furby.close_mouth),
+        (1.0, furby.open_close_mouth_blink),
+        (1.7, furby.close_mouth),
+        (1.95, furby.open_mouth),
+        (2.2, furby.close_mouth),
+        (2.45, furby.open_mouth),
+        (2.7, furby.close_mouth),
     ],
     "fear0": [
         (0.0, furby.open_mouth),
