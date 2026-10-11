@@ -130,10 +130,10 @@ class FurbyMotor:
         self.motor.forward()
 
     def open_mouth(self):
-        self._start_opening(0.19)
+        self._start_opening(0.14)
 
     def open_close_mouth_blink(self):
-        self._start_opening(0.39)
+        self._start_opening(0.34)
 
     def close_mouth(self):
         self._start_closing()
