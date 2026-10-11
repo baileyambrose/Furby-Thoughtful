@@ -130,11 +130,11 @@ class FurbyMotor:
                 self.motor_stop_time = now
         elif self.is_closing:
             elapsed = now - self.motor_start_time
-            if elapsed >= self.motor_duration+.1:
+            #if elapsed >= self.motor_duration+.1:
                 #self.motor.backward()
-                self.is_closing = False
-                self.is_stopping = True
-                self.motor_stop_time = now
+                #self.is_closing = False
+                #self.is_stopping = True
+                #self.motor_stop_time = now
         elif self.is_stopping:
             self.stop_motor()
             """elapsed = now - self.motor_stop_time
