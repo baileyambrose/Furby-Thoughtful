@@ -284,6 +284,10 @@ sequences = {
         (0.6, furby.close_mouth),
         (0.8, furby.open_close_mouth_blink),
         (1.2, furby.close_mouth),
+        (1.4, furby.open_mouth),
+        (1.6, furby.close_mouth),
+        (1.8, furby.open_mouth),
+        (2.0, furby.close_mouth),
     ],
     "fear0": [
         (0.0, furby.open_mouth),
