@@ -23,9 +23,6 @@ trigger_emotion = None
 
 sound_folder = "sounds/"
 
-dialogue = {"neutral0":"Furby thinks you\nlook so bored",
-            "happy0":"You look happy!\nI'm happy you're\nhappy!"}
-
 class FurbyMotor:
     def __init__(self, motor_pin_dir1, motor_pin_dir2, enable_pin, button_pin):
         # Motor(IN1, IN2, enable=EN)
@@ -36,6 +33,35 @@ class FurbyMotor:
 
         self.is_calibrating = False
         self.calibration_time = 0.0
+
+        self.is_opening = False
+        self.is_closing = False
+        self.motor_start_time = 0.0
+        self.motor_duration = 0.0
+
+        self.is_stopping = False
+        self.motor_stop_time = 0.0
+
+        self.sequence = []
+        self.sequence_start_time = 0.0
+        self.sequence_index = 0
+        self.sequence_active = False
+
+    def load_sequences(self, sequence_dict):
+        #list of name:(time_offset, function)
+        self.sequence_dict = sequence_dict
+
+    def load_sequence(self, name):
+        if name not in self.sequence_dict:
+            print(f"Sequence '{name}' not found")
+            return
+        seq = self.sequence_dict[name]
+
+        self.sequence = sorted(seq, key=lambda x: x[0])
+        self.sequence_index = 0
+        self.sequence_active = False
+
+        print(f"Sequence '{name}' loaded")
 
     def calibrate(self):
         self.is_calibrating = True
@@ -49,10 +75,85 @@ class FurbyMotor:
                 self.stop_motor()
                 self.is_calibrating = False
                 print("Calibration button hit — motor stopped")
+        elif self.is_closing:
+            elapsed = time.monotonic() - self.motor_start_time
+            if elapsed > 0.1:
+                self.motor.backward()
+                self.is_closing = False
+                self.is_stopping = True
+                self.motor_stop_time = time.monotonic()
+
+
+    def _start_opening(self,duration):
+        self.is_opening = True
+        self.is_closing = False
+        self.motor_duration = duration
+        self.motor_start_time = time.monotonic()
+
+        self.motor.backward()
+
+    def _start_closing(self):
+            self.is_opening = False
+            self.is_closing = True
+            self.motor_start_time = time.monotonic()
+    
+            self.motor.forward()
+
+    def open_mouth(self):
+        self._start_opening(0.19)
+
+    def open_close_mouth_blink(self):
+        self._start_opening(0.39)
+
+    def close_mouth(self):
+        self._start_closing()
 
     def stop_motor(self):
         self.motor.forward_device.on()
         self.motor.backward_device.on()
+
+    def start_sequence(self):
+        self.sequence_start_time = time.monotonic()
+        self.sequence_index = 0
+        self.sequence_active = True
+        print("Sequence started")
+
+    def update(self):
+        #Must be called periodically from main loop
+        now = time.monotonic()
+        if self.is_opening:
+            elapsed = now - self.motor_start_time
+            if elapsed >= self.motor_duration:
+                self.motor.forward()
+                self.is_opening = False
+                self.is_stopping = True
+                self.motor_stop_time = now
+        elif self.is_closing:
+            elapsed = now - self.motor_start_time
+            if elapsed >= self.motor_duration:
+                self.motor.backward()
+                self.is_closing = False
+                self.is_stopping = True
+                self.motor_stop_time = now
+        elif self.is_stopping:
+            elapsed = now - self.motor_stop_time
+            if elapsed >= 0.05:
+                # Manual brake: both inputs HIGH
+                self.motor.forward_device.on()
+                self.motor.backward_device.on()
+                self.is_stopping = False
+
+        if self.sequence_active and self.sequence_index < len(self.sequence):
+            event_time, event_fn = self.sequence[self.sequence_index]
+            if now - self.sequence_start_time >= event_time:
+                print(f"Sequence event at {event_time}s")
+                event_fn()
+                self.sequence_index += 1
+
+            # If finished
+            if self.sequence_index >= len(self.sequence):
+                self.sequence_active = False
+                print("Sequence finished")
 
 furby = FurbyMotor(20,21,16,12)
 
@@ -135,6 +236,18 @@ class AudioBank:
         return max(0.0, min(1.0, played))
     
 sound_player = AudioBank(sound_folder)
+
+dialogue = {"neutral0":"Furby thinks you\nlook so bored",
+            "happy0":"You look happy!\nI'm happy you're\nhappy!"}
+
+sequences = {
+    "neutral0": [
+        (0.0, FurbyMotor.open_mouth()),
+        (0.2, FurbyMotor.close_mouth())
+    ]
+}
+
+furby.load_sequences(sequences)
 
 sd.default.latency = ('low', 'low')   # request smallest buffers
 sd.default.blocksize = 256            # tiny block size
@@ -313,8 +426,10 @@ while True:
         if sustained and not triggered:
             print("Triggered:", sustained)
 
-            sound_player.play(f"{dominant_emotion[0]}0")
             trigger_emotion = f"{dominant_emotion[0]}0"
+            sound_player.play(trigger_emotion)
+            furby.load_sequence(trigger_emotion)
+            furby.start_sequence()
             triggered = True
             sustained = None
         elif not sound_player.is_playing():
@@ -341,6 +456,8 @@ while True:
         cv2.imshow("Emotion Detection", composed)
         
         time.sleep(0.05)
+
+        furby.update()
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
