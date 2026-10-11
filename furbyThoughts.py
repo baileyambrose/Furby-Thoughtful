@@ -26,6 +26,37 @@ sound_folder = "sounds/"
 dialogue = {"neutral0":"Furby thinks you\nlook so bored",
             "happy0":"You look happy!\nI'm happy you're\nhappy!"}
 
+class FurbyMotor:
+    def __init__(self, motor_pin_dir1, motor_pin_dir2, enable_pin, button_pin):
+        # Motor(IN1, IN2, enable=EN)
+        self.motor = Motor(motor_pin_dir1, motor_pin_dir2, enable=enable_pin)
+        self.button = Button(button_pin, pull_up=True, bounce_time=0.0005)
+
+        self.button.when_pressed = self._on_button_pressed
+
+        self.is_calibrating = False
+        self.calibration_time = 0.0
+
+    def calibrate(self):
+        self.is_calibrating = True
+        self.motor.forward()
+        self.calibration_start_time = time.monotonic()
+
+    def _on_switch_pressed(self):
+        if self.is_calibrating:
+            elapsed = time.monotonic() - self.calibration_start_time
+            if elapsed > 0.2:
+                self.stop_motor()
+                self.is_calibrating = False
+                print("Calibration switch hit — motor stopped")
+
+    def stop_motor(self):
+        self.motor.forward_device.on()
+        self.motor.backward_device.on()
+
+furby = FurbyMotor(20,21,16,12)
+furby.calibrate()
+
 class AudioBank:
     def __init__(self, folder):
         self.sounds = {}
