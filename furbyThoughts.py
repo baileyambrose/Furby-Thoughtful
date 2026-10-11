@@ -123,6 +123,7 @@ class FurbyMotor:
     def update(self):
         #Must be called periodically from main loop
         now = time.monotonic()
+        print(f"{now}")
         if self.is_opening:
             elapsed = now - self.motor_start_time
             if elapsed >= self.motor_duration:
