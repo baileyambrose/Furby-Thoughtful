@@ -242,8 +242,8 @@ dialogue = {"neutral0":"Furby thinks you\nlook so bored",
 
 sequences = {
     "neutral0": [
-        (0.0, FurbyMotor.open_mouth()),
-        (0.2, FurbyMotor.close_mouth())
+        (0.0, furby.open_mouth),
+        (0.2, furby.close_mouth)
     ]
 }
 
