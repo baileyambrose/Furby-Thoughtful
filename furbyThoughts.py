@@ -238,12 +238,18 @@ class AudioBank:
 sound_player = AudioBank(sound_folder)
 
 dialogue = {"neutral0":"Furby thinks you\nlook so bored",
-            "happy0":"You look happy!\nI'm happy you're\nhappy!"}
+            "happy0":"You look happy!\nI'm happy you're\nhappy!",
+            "fear0":"AHHHHHH",
+            }
 
 sequences = {
     "neutral0": [
         (0.0, furby.open_mouth),
         (0.2, furby.close_mouth)
+    ],
+    "fear0": [
+        (0.0, furby.open_mouth),
+        (4.0, furby.close_mouth)
     ]
 }
 
