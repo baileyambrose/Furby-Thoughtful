@@ -42,13 +42,13 @@ class FurbyMotor:
         self.motor.forward()
         self.calibration_start_time = time.monotonic()
 
-    def _on_switch_pressed(self):
+    def _on_button_pressed(self):
         if self.is_calibrating:
             elapsed = time.monotonic() - self.calibration_start_time
             if elapsed > 0.2:
                 self.stop_motor()
                 self.is_calibrating = False
-                print("Calibration switch hit — motor stopped")
+                print("Calibration button hit — motor stopped")
 
     def stop_motor(self):
         self.motor.forward_device.on()
