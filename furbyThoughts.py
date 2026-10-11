@@ -455,7 +455,7 @@ while True:
         # Display final composed frame
         cv2.imshow("Emotion Detection", composed)
         
-        time.sleep(0.05)
+        #time.sleep(0.05)
 
         furby.update()
 
