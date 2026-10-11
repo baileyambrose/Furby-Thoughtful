@@ -288,8 +288,6 @@ sequences = {
         (1.95, furby.close_mouth),
         (2.2, furby.open_mouth),
         (2.45, furby.close_mouth),
-        (2.7, furby.open_mouth),
-        (2.95, furby.close_mouth),
     ],
     "fear0": [
         (0.0, furby.open_mouth),
