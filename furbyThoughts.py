@@ -4,6 +4,7 @@ from picamera2 import Picamera2, MappedArray
 from fer.fer import FER
 import time
 import numpy as np
+import threading
 
 import os
 from gpiozero import Motor, Button
@@ -46,6 +47,33 @@ class FurbyMotor:
         self.sequence_start_time = 0.0
         self.sequence_index = 0
         self.sequence_active = False
+
+        self._update_thread = None
+        self._update_thread_stop = False
+
+    def start_update_thread(self, interval=0.01):
+        #Runs update() in a background thread at a fixed interval.
+
+        if self._update_thread is not None:
+            return  # already running
+
+        self._update_thread_stop = False
+
+        def loop():
+            while not self._update_thread_stop:
+                self.update()
+                time.sleep(interval)
+
+        self._update_thread = threading.Thread(target=loop, daemon=True)
+        self._update_thread.start()
+        print("Update thread started")
+
+    def stop_update_thread(self):
+        self._update_thread_stop = True
+        if self._update_thread is not None:
+            self._update_thread.join(timeout=0.2)
+        self._update_thread = None
+        print("Update thread stopped")
 
     def load_sequences(self, sequence_dict):
         #list of name:(time_offset, function)
@@ -123,7 +151,6 @@ class FurbyMotor:
     def update(self):
         #Must be called periodically from main loop
         now = time.monotonic()
-        print(f"{now}")
         if self.is_opening:
             elapsed = now - self.motor_start_time
             if elapsed >= self.motor_duration:
@@ -268,6 +295,7 @@ sd.default.channels = 1               # mono
 
 furby.calibrate()
 sound_player.play("awake")
+furby.start_update_thread()
 
 picam2 = Picamera2()
 config = picam2.create_preview_configuration(
@@ -477,3 +505,4 @@ while True:
 
 cv2.destroyAllWindows()
 picam2.stop()
+furby.stop_update_thread()
