@@ -249,7 +249,7 @@ sequences = {
     ],
     "fear0": [
         (0.0, furby.open_mouth),
-        (4.0, furby.close_mouth)
+        (2.0, furby.close_mouth)
     ]
 }
 
