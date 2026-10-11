@@ -136,12 +136,13 @@ class FurbyMotor:
                 self.is_stopping = True
                 self.motor_stop_time = now
         elif self.is_stopping:
-            elapsed = now - self.motor_stop_time
+            self.stop_motor()
+            """elapsed = now - self.motor_stop_time
             if elapsed >= 0.05:
                 # Manual brake: both inputs HIGH
                 self.motor.forward_device.on()
                 self.motor.backward_device.on()
-                self.is_stopping = False
+                self.is_stopping = False"""
 
         if self.sequence_active and self.sequence_index < len(self.sequence):
             event_time, event_fn = self.sequence[self.sequence_index]
