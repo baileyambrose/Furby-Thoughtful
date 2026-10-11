@@ -79,7 +79,7 @@ class FurbyMotor:
         elif self.is_closing:
             elapsed = now - self.motor_start_time
             if elapsed > 0.05:
-                print(f"{now} reverse motor")
+                print(f"{now} reverse motor (closing, switch pressed)")
                 self.motor.backward()
                 self.is_closing = False
                 self.is_stopping = True
@@ -126,7 +126,7 @@ class FurbyMotor:
         if self.is_opening:
             elapsed = now - self.motor_start_time
             if elapsed >= self.motor_duration:
-                print(f"{now} reverse motor")
+                print(f"{now} reverse motor (opening)")
                 self.motor.forward()
                 self.is_opening = False
                 self.is_stopping = True
@@ -134,7 +134,7 @@ class FurbyMotor:
         elif self.is_closing:
             elapsed = now - self.motor_start_time
             if elapsed >= self.motor_duration+.1:
-                print(f"{now} reverse motor")
+                print(f"{now} reverse motor (closing)")
                 self.motor.backward()
                 self.is_closing = False
                 self.is_stopping = True
@@ -147,7 +147,7 @@ class FurbyMotor:
                 self.motor.forward_device.on()
                 self.motor.backward_device.on()
                 self.is_stopping = False
-                print(f"{now} stop motor")
+                print(f"{now}, {elapsed} stop motor")
 
         if self.sequence_active and self.sequence_index < len(self.sequence):
             event_time, event_fn = self.sequence[self.sequence_index]
