@@ -77,7 +77,7 @@ class FurbyMotor:
                 print("Calibration button hit — motor stopped")
         elif self.is_closing:
             elapsed = time.monotonic() - self.motor_start_time
-            if elapsed > 0.1:
+            if elapsed > 0.05:
                 self.motor.backward()
                 self.is_closing = False
                 self.is_stopping = True
@@ -93,11 +93,11 @@ class FurbyMotor:
         self.motor.backward()
 
     def _start_closing(self):
-            self.is_opening = False
-            self.is_closing = True
-            self.motor_start_time = time.monotonic()
-    
-            self.motor.forward()
+        self.is_opening = False
+        self.is_closing = True
+        self.motor_start_time = time.monotonic()
+
+        self.motor.forward()
 
     def open_mouth(self):
         self._start_opening(0.19)
@@ -130,7 +130,7 @@ class FurbyMotor:
                 self.motor_stop_time = now
         elif self.is_closing:
             elapsed = now - self.motor_start_time
-            if elapsed >= self.motor_duration:
+            if elapsed >= self.motor_duration+.1:
                 self.motor.backward()
                 self.is_closing = False
                 self.is_stopping = True
