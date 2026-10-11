@@ -465,7 +465,7 @@ while True:
         drawtext(composed, trigger_emotion)
         
         # Display final composed frame
-        cv2.imshow("Emotion Detection", composed)
+        #cv2.imshow("Emotion Detection", composed)
         
         #time.sleep(0.05)
 
