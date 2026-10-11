@@ -45,7 +45,7 @@ class FurbyMotor:
     def _on_button_pressed(self):
         if self.is_calibrating:
             elapsed = time.monotonic() - self.calibration_start_time
-            if elapsed > 0.2:
+            if elapsed > 4.5:
                 self.stop_motor()
                 self.is_calibrating = False
                 print("Calibration button hit — motor stopped")
@@ -55,7 +55,6 @@ class FurbyMotor:
         self.motor.backward_device.on()
 
 furby = FurbyMotor(20,21,16,12)
-furby.calibrate()
 
 class AudioBank:
     def __init__(self, folder):
@@ -140,6 +139,9 @@ sound_player = AudioBank(sound_folder)
 sd.default.latency = ('low', 'low')   # request smallest buffers
 sd.default.blocksize = 256            # tiny block size
 sd.default.channels = 1               # mono
+
+furby.calibrate()
+sound_player.play("awake")
 
 picam2 = Picamera2()
 config = picam2.create_preview_configuration(
