@@ -78,7 +78,7 @@ class FurbyMotor:
         elif self.is_closing:
             elapsed = time.monotonic() - self.motor_start_time
             if elapsed > 0.05:
-                self.motor.backward()
+                #self.motor.backward()
                 self.is_closing = False
                 self.is_stopping = True
                 self.motor_stop_time = time.monotonic()
