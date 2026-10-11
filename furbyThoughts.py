@@ -69,19 +69,21 @@ class FurbyMotor:
         self.calibration_start_time = time.monotonic()
 
     def _on_button_pressed(self):
+        now = time.monotonic()
         if self.is_calibrating:
-            elapsed = time.monotonic() - self.calibration_start_time
+            elapsed = now - self.calibration_start_time
             if elapsed > 4.5:
                 self.stop_motor()
                 self.is_calibrating = False
                 print("Calibration button hit — motor stopped")
         elif self.is_closing:
-            elapsed = time.monotonic() - self.motor_start_time
+            elapsed = now - self.motor_start_time
             if elapsed > 0.05:
-                #self.motor.backward()
+                print(f"{now} reverse motor")
+                self.motor.backward()
                 self.is_closing = False
                 self.is_stopping = True
-                self.motor_stop_time = time.monotonic()
+                self.motor_stop_time = now
 
 
     def _start_opening(self,duration):
@@ -124,25 +126,28 @@ class FurbyMotor:
         if self.is_opening:
             elapsed = now - self.motor_start_time
             if elapsed >= self.motor_duration:
-                #self.motor.forward()
+                print(f"{now} reverse motor")
+                self.motor.forward()
                 self.is_opening = False
                 self.is_stopping = True
                 self.motor_stop_time = now
         elif self.is_closing:
             elapsed = now - self.motor_start_time
-            #if elapsed >= self.motor_duration+.1:
-                #self.motor.backward()
-                #self.is_closing = False
-                #self.is_stopping = True
-                #self.motor_stop_time = now
+            if elapsed >= self.motor_duration+.1:
+                print(f"{now} reverse motor")
+                self.motor.backward()
+                self.is_closing = False
+                self.is_stopping = True
+                self.motor_stop_time = now
         elif self.is_stopping:
-            self.stop_motor()
-            """elapsed = now - self.motor_stop_time
+            #self.stop_motor()
+            elapsed = now - self.motor_stop_time
             if elapsed >= 0.05:
                 # Manual brake: both inputs HIGH
                 self.motor.forward_device.on()
                 self.motor.backward_device.on()
-                self.is_stopping = False"""
+                self.is_stopping = False
+                print(f"{now} stop motor")
 
         if self.sequence_active and self.sequence_index < len(self.sequence):
             event_time, event_fn = self.sequence[self.sequence_index]
