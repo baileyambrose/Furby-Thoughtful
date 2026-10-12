@@ -1,0 +1,83 @@
+dialogue:
+  neutral0: "Furby thinks you\nlook so bored"
+  sad0: "Why are you\nso sad?"
+  sad1: "Don't be sad!\nBe happy!"
+  sad2: "You look lonely.\nI can fix that"
+  disgust0: "Don't look at me\nlike I'm gross!"
+  fear0: "AHHHHHHH"
+  angry0: "Why are we mad?"
+  happy0: "You look happy!\nI'm happy you're\nhappy!"
+  happy1: "Wow! I love\nthat smile"
+  happy2: "We're so happy!"
+  happy3: "Keep smiling for\nme!"
+  happy4: "Thank you for\nthat beautiful smile"
+  surprise0: "Did I scare\nyou?"
+
+sequences:
+  neutral0:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_mouth]
+    - [1.25, close_mouth]
+    - [1.5, open_close_mouth_blink]
+    - [1.95, close_mouth]
+    - [2.2, open_mouth]
+    - [2.45, close_mouth]
+
+  sad0:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_mouth]
+    - [1.25, close_mouth]
+    - [1.5, open_close_mouth_blink]
+    - [1.95, close_mouth]
+    - [2.2, open_mouth]
+    - [2.45, close_mouth]
+  sad1:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_mouth]
+    - [1.25, close_mouth]
+    - [1.5, open_close_mouth_blink]
+    - [1.95, close_mouth]
+    - [2.2, open_mouth]
+    - [2.45, close_mouth]
+  sad2:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_mouth]
+    - [1.25, close_mouth]
+    - [1.5, open_close_mouth_blink]
+    - [1.95, close_mouth]
+    - [2.2, open_mouth]
+    - [2.45, close_mouth]
+  disgust0:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_mouth]
+    - [1.25, close_mouth]
+    - [1.5, open_close_mouth_blink]
+    - [1.95, close_mouth]
+    - [2.2, open_mouth]
+    - [2.45, close_mouth]
+  fear0:
+    - [0.0, open_mouth]
+    - [2.0, close_mouth]
+  sleep0:
+    - [0.0, open_mouth]
+    - [1.25, close_mouth]
+    - [1.5, open_close_mouth_blink]
+    - [1.95, close_mouth]
+    - [2.2, open_mouth]
+    - [2.45, close_mouth]
+    - [2.7, close_eyes]

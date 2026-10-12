@@ -15,6 +15,9 @@ import sounddevice as sd
 import soundfile as sf
 import re
 
+import yaml
+from pathlib import Path
+
 # Emotion detector (FER uses a CNN trained on FER2013)
 emotion_detector = FER(mtcnn=False)
 current_emotion = None
@@ -28,7 +31,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("13:17", "13:18"), ("18:00", "18:30")],
+    "Monday":    [("13:17", "13:38"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -299,71 +302,33 @@ class AudioBank:
     
 sound_player = AudioBank(sound_folder)
 
-dialogue = {"neutral0":"Furby thinks you\nlook so bored",
-            "sad0":"Why are you\nso sad?",
-            "sad1":"Don't be sad!\nBe happy!",
-            "disgust0":"Don't look at me\nlike I'm gross!",
-            "fear0":"AHHHHHHH      ",
-            "angry0":"      Why are we mad?",
-            "happy0":"You look happy!\nI'm happy you're\nhappy!",
-            "happy1":"Wow! I love\nthat smile\n",
-            "happy2":"  We're so happy!",
-            "happy3":"Keep smiling for\nme!  ",
-            "happy4":"Thank you for\nthat beautiful smile",
-            "surprise0":"Did I scare\nyou?",
-            }
+CONFIG_PATH = Path("animations.yaml")
 
-sequences = {
-    "neutral0": [
-        (0.0, furby.open_mouth),
-        (0.25, furby.close_mouth),
-        (0.5, furby.open_mouth),
-        (0.75, furby.close_mouth),
-        (1.0, furby.open_mouth),
-        (1.25, furby.close_mouth),
-        (1.5, furby.open_close_mouth_blink),
-        (1.95, furby.close_mouth),
-        (2.2, furby.open_mouth),
-        (2.45, furby.close_mouth),
-    ],
-    "sad0": [
-        (0.0, furby.open_mouth),
-        (0.25, furby.close_mouth),
-        (0.5, furby.open_mouth),
-        (0.75, furby.close_mouth),
-        (1.0, furby.open_mouth),
-        (1.25, furby.close_mouth),
-        (1.5, furby.open_close_mouth_blink),
-        (1.95, furby.close_mouth),
-        (2.2, furby.open_mouth),
-        (2.45, furby.close_mouth),
-    ],
-    "disgust0": [
-        (0.0, furby.open_mouth),
-        (0.25, furby.close_mouth),
-        (0.5, furby.open_mouth),
-        (0.75, furby.close_mouth),
-        (1.0, furby.open_mouth),
-        (1.25, furby.close_mouth),
-        (1.5, furby.open_close_mouth_blink),
-        (1.95, furby.close_mouth),
-        (2.2, furby.open_mouth),
-        (2.45, furby.close_mouth),
-    ],
-    "fear0": [
-        (0.0, furby.open_mouth),
-        (2.0, furby.close_mouth)
-    ],
-    "sleep": [
-        (0.0, furby.open_mouth),
-        (1.25, furby.close_mouth),
-        (1.5, furby.open_close_mouth_blink),
-        (1.95, furby.close_mouth),
-        (2.2, furby.open_mouth),
-        (2.45, furby.close_mouth),
-        (2.45, furby.close_eyes),
-    ]
-}
+def load_config():
+    with CONFIG_PATH.open("r", encoding="utf-8") as f:
+        raw = yaml.safe_load(f)
+
+    dialogue = raw["dialogue"]
+
+    #map function names to actual furby methods
+    fn_lookup = {
+        "open_mouth": furby.open_mouth,
+        "close_mouth": furby.close_mouth,
+        "open_close_mouth_blink": furby.open_close_mouth_blink,
+        "close_eyes": furby.close_eyes,
+        #add more if needed
+    }
+
+    sequences = {}
+    for key, seq in raw["sequences"].items():
+        converted = []
+        for timestamp, fn_name in seq:
+            converted.append((timestamp, fn_lookup[fn_name]))
+        sequences[key] = converted
+
+    return dialogue, sequences
+
+dialogue, sequences = load_config()
 
 furby.load_sequences(sequences)
 
