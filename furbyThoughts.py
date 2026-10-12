@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "12:15"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "12:16"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -496,6 +496,7 @@ def on_deactivate():
     cv2.putText(frame, "Zzzzzz", (150, 200),
         cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
     cv2.imshow("Emotion Detection", frame)
+    testz()
 
     while sound_player.is_playing():
         sleep(0.05)
@@ -507,7 +508,7 @@ def testz():
         cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
     cv2.imshow("Emotion Detection", frame)
 
-testz()
+
 while True:
     check_if_time_in_window()
 
