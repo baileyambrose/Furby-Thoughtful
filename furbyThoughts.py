@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "12:25"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "12:28"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -514,132 +514,132 @@ while True:
         cv2.putText(frame, "Zzzzzz", (150, 200),
             cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
         cv2.imshow("Emotion Detection", frame)
-        continue
+    else:
     
-    request = picam2.capture_request()
-    
-    index = 0
-        #grayscale lores frame for detection
-    try:
-        sustained = None
-
-        # ORIGINAL frame (for display)
-        frame = request.make_array('main')
-
-        # ROTATED frame (for processing)
-        proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
-        proc = cv2.flip(proc, 1)
+        request = picam2.capture_request()
         
-        # Face detection on rotated frame
-        faces = face_detector.detectMultiScale(proc, 1.1, 5)
-
-        # For each face, convert rotated coords ? original coords
-        H, W = proc.shape[:2]
-
-        dominant_emotion = [None,0.0]
-
-        for (xp, yp, wp, hp) in faces:
-            face_crop = proc[yp:yp+hp, xp:xp+wp]
-            
-            face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
-            
-            face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
-            #face_crop_rgb = np.ascontiguousarray(face_crop_rgb, dtype=np.uint8)
-            #safe_img = face_crop_rgb.copy()
-        
-            try:
-                emotion, score = emotion_detector.top_emotion(face_crop_rgb)
-                label = f"{emotion} ({score:.2f})"
-
-                if hp > dominant_emotion[1]:
-                    dominant_emotion[0] = emotion
-                    dominant_emotion[1] = hp
-                
-                index = int(score *4)
-                if emotion == "neutral":
-                    index = 0 + index
-                elif emotion == "sad":
-                    index = 4 + index
-                elif emotion == "disgust":
-                    index = 9 + index
-                elif emotion == "fear":
-                    index = 14 + index
-                elif emotion == "angry":
-                    index = 14 + index
-                elif emotion == "happy":
-                    index = 18 + index
-                elif emotion == "surprise":
-                    index = 23 + index
-                    
-            except:
-                label = "error"
-            
-            orig_x = xp
-            orig_y = yp
-            orig_w = wp
-            orig_h = hp
-
-            box_color = (150,150,150)
-            box_linewidth = 1
-            
-            if label != "error":
-                cv2.putText(proc, label, (orig_x, orig_y - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-                        
-                box_end = orig_x
-                if index > 14:
-                    box_end = orig_x+orig_w
-                drawline(proc, index, box_end, orig_y + orig_h//2)
-                
-                box_color = (255,255,255)
-                box_linewidth = 2
-                if sustained:
-                    box_color = (0,255,0)
-            
-            cv2.rectangle(proc,
-                          (orig_x, orig_y),
-                          (orig_x + orig_w, orig_y + orig_h),
-                          box_color, box_linewidth)
-
-        sustained = process_emotion(dominant_emotion[0])
-        
-        if sustained and not triggered:
-            print("Triggered:", sustained)
-            emotion = dominant_emotion[0]
-            while emotion not in dialogue:
-                emotion = f"{dominant_emotion[0]}{random.randint(0,5)}"
-            trigger_emotion = emotion
-            sound_player.play(trigger_emotion)
-            furby.load_sequence(trigger_emotion)
-            furby.start_sequence()
-            triggered = True
+        index = 0
+            #grayscale lores frame for detection
+        try:
             sustained = None
-        elif not sound_player.is_playing():
-            triggered = False
-            trigger_emotion = None
 
-    finally:
-        if active:
-            request.release()
+            # ORIGINAL frame (for display)
+            frame = request.make_array('main')
 
-            # --- Composite onto background ---
-
-            # Scale upright camera frame
-            cam_scaled = cv2.resize(proc, (CAM_W, CAM_H))
-
-            # Copy background so original stays intact
-            composed = backgrounds[index].copy()
-
-            # Overlay scaled camera feed onto background
-            composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
-
-            drawtext(composed, trigger_emotion)
+            # ROTATED frame (for processing)
+            proc = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+            proc = cv2.flip(proc, 1)
             
-            # Display final composed frame
-            cv2.imshow("Emotion Detection", composed)
-            #testz()
+            # Face detection on rotated frame
+            faces = face_detector.detectMultiScale(proc, 1.1, 5)
+
+            # For each face, convert rotated coords ? original coords
+            H, W = proc.shape[:2]
+
+            dominant_emotion = [None,0.0]
+
+            for (xp, yp, wp, hp) in faces:
+                face_crop = proc[yp:yp+hp, xp:xp+wp]
+                
+                face_crop_bgr = cv2.cvtColor(face_crop, cv2.COLOR_BGRA2BGR)
+                
+                face_crop_rgb = cv2.cvtColor(face_crop_bgr, cv2.COLOR_BGR2RGB)
+                #face_crop_rgb = np.ascontiguousarray(face_crop_rgb, dtype=np.uint8)
+                #safe_img = face_crop_rgb.copy()
             
-            sleep(0.05)
+                try:
+                    emotion, score = emotion_detector.top_emotion(face_crop_rgb)
+                    label = f"{emotion} ({score:.2f})"
+
+                    if hp > dominant_emotion[1]:
+                        dominant_emotion[0] = emotion
+                        dominant_emotion[1] = hp
+                    
+                    index = int(score *4)
+                    if emotion == "neutral":
+                        index = 0 + index
+                    elif emotion == "sad":
+                        index = 4 + index
+                    elif emotion == "disgust":
+                        index = 9 + index
+                    elif emotion == "fear":
+                        index = 14 + index
+                    elif emotion == "angry":
+                        index = 14 + index
+                    elif emotion == "happy":
+                        index = 18 + index
+                    elif emotion == "surprise":
+                        index = 23 + index
+                        
+                except:
+                    label = "error"
+                
+                orig_x = xp
+                orig_y = yp
+                orig_w = wp
+                orig_h = hp
+
+                box_color = (150,150,150)
+                box_linewidth = 1
+                
+                if label != "error":
+                    cv2.putText(proc, label, (orig_x, orig_y - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+                            
+                    box_end = orig_x
+                    if index > 14:
+                        box_end = orig_x+orig_w
+                    drawline(proc, index, box_end, orig_y + orig_h//2)
+                    
+                    box_color = (255,255,255)
+                    box_linewidth = 2
+                    if sustained:
+                        box_color = (0,255,0)
+                
+                cv2.rectangle(proc,
+                            (orig_x, orig_y),
+                            (orig_x + orig_w, orig_y + orig_h),
+                            box_color, box_linewidth)
+
+            sustained = process_emotion(dominant_emotion[0])
+            
+            if sustained and not triggered:
+                print("Triggered:", sustained)
+                emotion = dominant_emotion[0]
+                while emotion not in dialogue:
+                    emotion = f"{dominant_emotion[0]}{random.randint(0,5)}"
+                trigger_emotion = emotion
+                sound_player.play(trigger_emotion)
+                furby.load_sequence(trigger_emotion)
+                furby.start_sequence()
+                triggered = True
+                sustained = None
+            elif not sound_player.is_playing():
+                triggered = False
+                trigger_emotion = None
+
+        finally:
+            if active:
+                request.release()
+
+                # --- Composite onto background ---
+
+                # Scale upright camera frame
+                cam_scaled = cv2.resize(proc, (CAM_W, CAM_H))
+
+                # Copy background so original stays intact
+                composed = backgrounds[index].copy()
+
+                # Overlay scaled camera feed onto background
+                composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
+
+                drawtext(composed, trigger_emotion)
+                
+                # Display final composed frame
+                cv2.imshow("Emotion Detection", composed)
+                #testz()
+                
+                sleep(0.05)
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
