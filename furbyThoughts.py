@@ -506,9 +506,10 @@ def check_if_low_power(today, current_time):
     if now - last_activation_time > INACTIVITY_PERIOD:
         inactivity = True
 
-    if in_sleep_window and inactivity:
+    if in_sleep_window and inactivity and not sleeping:
         print(f"inactive for {INACTIVITY_PERIOD}s, sleeping...")
         sleeping = True
+        furby.close_eyes()
     elif sleeping and not inactivity:
         print(f"activity detected, waking up")
         sleeping = False
