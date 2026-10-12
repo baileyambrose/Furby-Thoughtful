@@ -28,6 +28,16 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
+    "Monday":    [("09:00", "13:28"), ("18:00", "18:30")],
+    "Tuesday":   [("10:00", "11:00")],
+    "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
+    "Thursday":  [],
+    "Friday":    [("12:00", "12:10")],
+    "Saturday":  [("09:00", "10:00")],
+    "Sunday":    [("18:00", "19:00")],
+}
+sleeping = False
+low_power_schedule = {
     "Monday":    [("09:00", "12:28"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
@@ -36,6 +46,8 @@ activation_schedule = {
     "Saturday":  [("09:00", "10:00")],
     "Sunday":    [("18:00", "19:00")],
 }
+last_activation_time = 0.0
+INACTIVITY_PERIOD = 60.0
 
 class FurbyMotor:
     def __init__(self, motor_pin_dir1, motor_pin_dir2, enable_pin, button_pin):
@@ -454,7 +466,7 @@ def time_in_window(now, start_str, end_str):
     return start <= now <= end
 
 def check_if_time_in_window():
-    global active
+    global active, last_activation_time
 
     now = datetime.now()
     today = now.strftime("%A")
@@ -469,11 +481,40 @@ def check_if_time_in_window():
 
     if should_be_active and not active:
         active = True
+        last_activation_time = monotonic()
         on_activate()
 
     elif not should_be_active and active:
         active = False
         on_deactivate()
+
+    if active:
+        check_if_low_power(today, current_time)
+
+def check_if_low_power(today, current_time):
+    global last_activation_time, INACTIVITY_PERIOD, sleeping
+
+    windows = low_power_schedule.get(today, [])
+    
+    in_sleep_window = any(
+        time_in_window(current_time, start, end)
+        for start, end in windows
+    )
+
+    now = monotonic()
+    inactivity = False
+    if now - last_activation_time > INACTIVITY_PERIOD:
+        inactivity = True
+
+    if in_sleep_window and inactivity:
+        print(f"inactive for {INACTIVITY_PERIOD}s, sleeping...")
+        sleeping = True
+    elif sleeping and not inactivity:
+        print(f"activity detected, waking up")
+        sleeping = False
+
+    elif not in_sleep_window and sleeping:
+        sleeping = False
 
 def on_activate():
     while sound_player.is_playing():
@@ -488,17 +529,12 @@ def on_deactivate():
     sound_player.play("sleep")
     furby.load_sequence("sleep")
     furby.start_sequence()
-    frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
-    cv2.putText(frame, "Zzzzzz", (150, 200),
-        cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
-    cv2.imshow("Emotion Detection", frame)
-    testz()
 
     while sound_player.is_playing():
         sleep(0.05)
     print("Deactivated")
 
-def testz():
+def plot_sleep_screen():
     frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
     cv2.putText(frame, "Zzzzzz", (150, 200),
         cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
@@ -510,10 +546,7 @@ while True:
 
     if not active:
         sleep(1.0)
-        frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
-        cv2.putText(frame, "Zzzzzz", (150, 200),
-            cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
-        cv2.imshow("Emotion Detection", frame)
+        plot_sleep_screen()
     else:
     
         request = picam2.capture_request()
@@ -614,6 +647,7 @@ while True:
                 furby.start_sequence()
                 triggered = True
                 sustained = None
+                last_activation_time = monotonic()
             elif not sound_player.is_playing():
                 triggered = False
                 trigger_emotion = None
@@ -622,22 +656,25 @@ while True:
             if active:
                 request.release()
 
-                # --- Composite onto background ---
+                if not sleeping:
 
-                # Scale upright camera frame
-                cam_scaled = cv2.resize(proc, (CAM_W, CAM_H))
+                    # --- Composite onto background ---
 
-                # Copy background so original stays intact
-                composed = backgrounds[index].copy()
+                    # Scale upright camera frame
+                    cam_scaled = cv2.resize(proc, (CAM_W, CAM_H))
 
-                # Overlay scaled camera feed onto background
-                composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
+                    # Copy background so original stays intact
+                    composed = backgrounds[index].copy()
 
-                drawtext(composed, trigger_emotion)
-                
-                # Display final composed frame
-                cv2.imshow("Emotion Detection", composed)
-                #testz()
+                    # Overlay scaled camera feed onto background
+                    composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
+
+                    drawtext(composed, trigger_emotion)
+                    
+                    # Display final composed frame
+                    cv2.imshow("Emotion Detection", composed)
+                else:
+                    plot_sleep_screen()
                 
                 sleep(0.05)
 
