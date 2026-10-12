@@ -494,7 +494,7 @@ def on_deactivate():
     furby.start_sequence()
     frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
     cv2.putText(frame, "Zzzzzz", (50, 200),
-        cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255, 255), 3)
+        cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 3)
     cv2.imshow("Emotion Detection", frame)
 
     while sound_player.is_playing():
@@ -628,12 +628,7 @@ while True:
             drawtext(composed, trigger_emotion)
             
             # Display final composed frame
-            #cv2.imshow("Emotion Detection", composed)
-
-            frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
-            cv2.putText(frame, "Zzzzzz", (50, 200),
-                cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255, 255), 3)
-            cv2.imshow("Emotion Detection", frame)
+            cv2.imshow("Emotion Detection", composed)
             
             sleep(0.05)
 
