@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "12:08"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "12:10"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -501,6 +501,12 @@ def on_deactivate():
         sleep(0.05)
     print("Deactivated")
 
+def testz():
+    frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
+    cv2.putText(frame, "Zzzzzz", (50, 200),
+        cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 3)
+    cv2.imshow("Emotion Detection", frame)
+
 while True:
     check_if_time_in_window()
 
@@ -628,7 +634,8 @@ while True:
             drawtext(composed, trigger_emotion)
             
             # Display final composed frame
-            cv2.imshow("Emotion Detection", composed)
+            #cv2.imshow("Emotion Detection", composed)
+            testz()
             
             sleep(0.05)
 
