@@ -5,6 +5,7 @@ from fer.fer import FER
 import time
 import numpy as np
 import threading
+import random
 
 import os
 from gpiozero import Motor, Button
@@ -273,17 +274,44 @@ sound_player = AudioBank(sound_folder)
 
 dialogue = {"neutral0":"Furby thinks you\nlook so bored",
             "sad0":"Why are you\nso sad?",
+            "sad1":"Don't be sad!\nBe happy!",
             "disgust0":"Don't look at me\nlike I'm gross!",
             "fear0":"AHHHHHH  ",
             "angry0":"    Why are we mad?",
             "happy0":"You look happy!\nI'm happy you're\nhappy!",
-            "surprise0":"",
             "happy1":"Wow! I love\nthat smile\n",
-            "happy2":"  We're so happy!"
+            "happy2":"  We're so happy!",
+            "happy3":"Keep smiling for me!  ",
+            "happy4":"Thank you for\nthat beutiful smile",
+            "surprise0":"",
             }
 
 sequences = {
     "neutral0": [
+        (0.0, furby.open_mouth),
+        (0.25, furby.close_mouth),
+        (0.5, furby.open_mouth),
+        (0.75, furby.close_mouth),
+        (1.0, furby.open_mouth),
+        (1.25, furby.close_mouth),
+        (1.5, furby.open_close_mouth_blink),
+        (1.95, furby.close_mouth),
+        (2.2, furby.open_mouth),
+        (2.45, furby.close_mouth),
+    ],
+    "sad0": [
+        (0.0, furby.open_mouth),
+        (0.25, furby.close_mouth),
+        (0.5, furby.open_mouth),
+        (0.75, furby.close_mouth),
+        (1.0, furby.open_mouth),
+        (1.25, furby.close_mouth),
+        (1.5, furby.open_close_mouth_blink),
+        (1.95, furby.close_mouth),
+        (2.2, furby.open_mouth),
+        (2.45, furby.close_mouth),
+    ],
+    "disgust0": [
         (0.0, furby.open_mouth),
         (0.25, furby.close_mouth),
         (0.5, furby.open_mouth),
@@ -481,8 +509,10 @@ while True:
         
         if sustained and not triggered:
             print("Triggered:", sustained)
-
-            trigger_emotion = f"{dominant_emotion[0]}0"
+            emotion = dominant_emotion[0]
+            while emotion not in dialogue:
+                emotion = f"{dominant_emotion[0]}{random(5)}"
+            trigger_emotion = emotion
             sound_player.play(trigger_emotion)
             furby.load_sequence(trigger_emotion)
             furby.start_sequence()
