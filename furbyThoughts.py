@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "11:46"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "11:53"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -611,25 +611,26 @@ while True:
             trigger_emotion = None
 
     finally:
-        request.release()
+        if active:
+            request.release()
 
-        # --- Composite onto background ---
+            # --- Composite onto background ---
 
-        # Scale upright camera frame
-        cam_scaled = cv2.resize(proc, (CAM_W, CAM_H))
+            # Scale upright camera frame
+            cam_scaled = cv2.resize(proc, (CAM_W, CAM_H))
 
-        # Copy background so original stays intact
-        composed = backgrounds[index].copy()
+            # Copy background so original stays intact
+            composed = backgrounds[index].copy()
 
-        # Overlay scaled camera feed onto background
-        composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
+            # Overlay scaled camera feed onto background
+            composed[cam_y:cam_y+CAM_H, cam_x:cam_x+CAM_W] = cam_scaled
 
-        drawtext(composed, trigger_emotion)
-        
-        # Display final composed frame
-        cv2.imshow("Emotion Detection", composed)
-        
-        sleep(0.05)
+            drawtext(composed, trigger_emotion)
+            
+            # Display final composed frame
+            cv2.imshow("Emotion Detection", composed)
+            
+            sleep(0.05)
 
         #furby.update()
 
