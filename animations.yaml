@@ -57,6 +57,8 @@ sequences:
     - [2.25, close_mouth]
     - [2.5, open_close_mouth_blink]
     - [2.95, close_mouth]
+    - [3.2, open_mouth]
+    - [3.45, close_mouth]
   disgust0:
     - [0.0, open_mouth]
     - [0.25, close_mouth]
