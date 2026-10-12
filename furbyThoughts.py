@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "11:30"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "11:35"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -480,14 +480,14 @@ def check_if_time_in_window():
 
 def on_activate():
     while sound_player.is_playing():
-        time.sleep(0.05)
+        sleep(0.05)
     furby.calibrate()
     sound_player.play("awake")
     print("Activated")
 
 def on_deactivate():
     while sound_player.is_playing():
-        time.sleep(0.05)
+        sleep(0.05)
     sound_player.play("sleep")
     furby.load_sequence("sleep")
     furby.start_sequence()
@@ -497,14 +497,14 @@ def on_deactivate():
     cv2.imshow("Emotion Detection", frame)
 
     while sound_player.is_playing():
-        time.sleep(0.05)
+        sleep(0.05)
     print("Deactivated")
 
 while True:
     check_if_time_in_window()
 
     if not active:
-        time.sleep(1.0)
+        sleep(1.0)
         continue
     
     request = picam2.capture_request()
@@ -628,7 +628,7 @@ while True:
         # Display final composed frame
         cv2.imshow("Emotion Detection", composed)
         
-        time.sleep(0.05)
+        sleep(0.05)
 
         #furby.update()
 
