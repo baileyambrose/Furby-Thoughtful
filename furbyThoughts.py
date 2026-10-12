@@ -281,7 +281,7 @@ dialogue = {"neutral0":"Furby thinks you\nlook so bored",
             "happy0":"You look happy!\nI'm happy you're\nhappy!",
             "happy1":"Wow! I love\nthat smile\n",
             "happy2":"  We're so happy!",
-            "happy3":"Keep smiling for me!  ",
+            "happy3":"Keep smiling for\nme!  ",
             "happy4":"Thank you for\nthat beutiful smile",
             "surprise0":"",
             }
