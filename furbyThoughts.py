@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "11:37"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "11:40"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -75,7 +75,7 @@ class FurbyMotor:
         def loop():
             while not self._update_thread_stop:
                 self.update()
-                time.sleep(interval)
+                sleep(interval)
 
         self._update_thread = threading.Thread(target=loop, daemon=True)
         self._update_thread.start()
@@ -430,18 +430,19 @@ def drawtext(frame, emotion):
 
 def process_emotion(emotion):
     global current_emotion, emotion_start_time
+    now = monotonic()
 
     # If this is a new emotion, reset the timer
     if emotion != current_emotion:
         current_emotion = emotion
-        emotion_start_time = time.time()
+        emotion_start_time = now
         return None
 
     if emotion_start_time is None:
-        emotion_start_time = time.time()
+        emotion_start_time = now
 
     # If same emotion, check duration
-    elapsed = time.time() - emotion_start_time
+    elapsed = now - emotion_start_time
     if elapsed >= HOLD_TIME:
         return emotion   # sustained emotion detected
 
