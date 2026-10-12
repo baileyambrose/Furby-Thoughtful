@@ -2,7 +2,7 @@
 import cv2
 from picamera2 import Picamera2, MappedArray
 from fer.fer import FER
-import time
+#import time
 import numpy as np
 import threading
 import random
@@ -10,7 +10,7 @@ from datetime import datetime, time
 
 import os
 from gpiozero import Motor, Button
-from time import sleep
+from time import sleep, monotonic
 import sounddevice as sd
 import soundfile as sf
 import re
@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "11:35"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "11:37"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -107,10 +107,10 @@ class FurbyMotor:
     def calibrate(self):
         self.is_calibrating = True
         self.motor.forward()
-        self.calibration_start_time = time.monotonic()
+        self.calibration_start_time = monotonic()
 
     def _on_button_pressed(self):
-        now = time.monotonic()
+        now = monotonic()
         if self.is_calibrating:
             elapsed = now - self.calibration_start_time
             if elapsed > 4.5:
@@ -131,14 +131,14 @@ class FurbyMotor:
         self.is_opening = True
         self.is_closing = False
         self.motor_duration = duration
-        self.motor_start_time = time.monotonic()
+        self.motor_start_time = monotonic()
 
         self.motor.backward()
 
     def _start_closing(self):
         self.is_opening = False
         self.is_closing = True
-        self.motor_start_time = time.monotonic()
+        self.motor_start_time = monotonic()
 
         self.motor.forward()
 
@@ -159,14 +159,14 @@ class FurbyMotor:
         self.motor.backward_device.on()
 
     def start_sequence(self):
-        self.sequence_start_time = time.monotonic()
+        self.sequence_start_time = monotonic()
         self.sequence_index = 0
         self.sequence_active = True
         print("Sequence started")
 
     def update(self):
         #Must be called periodically from main loop
-        now = time.monotonic()
+        now = monotonic()
         if self.is_opening:
             elapsed = now - self.motor_start_time
             if elapsed >= self.motor_duration:
