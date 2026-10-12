@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "13:09"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "13:13"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -527,6 +527,9 @@ def on_activate():
 def on_deactivate():
     while sound_player.is_playing():
         sleep(0.05)
+    if sleeping:
+        furby.close_mouth()
+    sleep(1.0)
     sound_player.play("sleep")
     furby.load_sequence("sleep")
     furby.start_sequence()
