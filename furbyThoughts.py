@@ -164,7 +164,7 @@ class FurbyMotor:
         self._start_closing()
 
     def close_eyes(self):
-        self._start_opening(0.29)
+        self._start_opening(0.34)
 
     def stop_motor(self):
         self.motor.forward_device.on()
@@ -617,6 +617,7 @@ while True:
                 box_linewidth = 1
                 
                 if label != "error":
+                    last_activation_time = monotonic()
                     cv2.putText(proc, label, (orig_x, orig_y - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
                             
@@ -648,7 +649,6 @@ while True:
                 furby.start_sequence()
                 triggered = True
                 sustained = None
-                last_activation_time = monotonic()
             elif not sound_player.is_playing():
                 triggered = False
                 trigger_emotion = None
