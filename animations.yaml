@@ -34,9 +34,7 @@ sequences:
     - [1.0, open_close_mouth_blink]
     - [1.45, close_mouth]
     - [1.75, open_mouth]
-    - [2.0, close_mouth]
-    - [2.25, open_mouth]
-    - [2.5, close_mouth]
+    - [2.1, close_mouth]
 
   sad0:
     - [0.0, open_mouth]
