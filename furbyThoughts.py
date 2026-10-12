@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "12:01"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "12:05"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -496,7 +496,6 @@ def on_deactivate():
     cv2.putText(frame, "Zzzzzz", (50, 200),
         cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255, 255), 3)
     cv2.imshow("Emotion Detection", frame)
-    print("showing frame")
 
     while sound_player.is_playing():
         sleep(0.05)
@@ -507,7 +506,6 @@ while True:
 
     if not active:
         sleep(1.0)
-        print("skipping camera stuff")
         continue
     
     request = picam2.capture_request()
@@ -614,7 +612,6 @@ while True:
 
     finally:
         if active:
-            print("plotting camera")
             request.release()
 
             # --- Composite onto background ---
@@ -632,11 +629,13 @@ while True:
             
             # Display final composed frame
             #cv2.imshow("Emotion Detection", composed)
+
+            frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
+            cv2.putText(frame, "Zzzzzz", (50, 200),
+                cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255, 255), 3)
+            cv2.imshow("Emotion Detection", frame)
             
             sleep(0.05)
-        else:
-            print("not plotting camera")
-        #furby.update()
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
