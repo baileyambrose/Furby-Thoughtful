@@ -38,7 +38,7 @@ activation_schedule = {
 }
 sleeping = False
 low_power_schedule = {
-    "Monday":    [("09:00", "12:28"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "13:28"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -47,7 +47,7 @@ low_power_schedule = {
     "Sunday":    [("18:00", "19:00")],
 }
 last_activation_time = 0.0
-INACTIVITY_PERIOD = 60.0
+INACTIVITY_PERIOD = 20.0
 
 class FurbyMotor:
     def __init__(self, motor_pin_dir1, motor_pin_dir2, enable_pin, button_pin):
