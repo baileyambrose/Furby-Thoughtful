@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "11:53"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "11:57"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -628,7 +628,7 @@ while True:
             drawtext(composed, trigger_emotion)
             
             # Display final composed frame
-            cv2.imshow("Emotion Detection", composed)
+            #cv2.imshow("Emotion Detection", composed)
             
             sleep(0.05)
 
