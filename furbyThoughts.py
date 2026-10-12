@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "11:40"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "11:46"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -492,7 +492,7 @@ def on_deactivate():
     sound_player.play("sleep")
     furby.load_sequence("sleep")
     furby.start_sequence()
-    frame = np.zeros((1080, 1920, 3), dtype=np.uint8)
+    frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
     cv2.putText(frame, "Zzzzzz", (50, 200),
         cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255, 255), 3)
     cv2.imshow("Emotion Detection", frame)
