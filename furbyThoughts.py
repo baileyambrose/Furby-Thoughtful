@@ -6,6 +6,7 @@ import time
 import numpy as np
 import threading
 import random
+from datetime import datetime, time
 
 import os
 from gpiozero import Motor, Button
@@ -24,6 +25,17 @@ triggered = False
 trigger_emotion = None
 
 sound_folder = "sounds/"
+
+active = False
+activation_schedule = {
+    "Monday":    [("09:00", "11:30"), ("18:00", "18:30")],
+    "Tuesday":   [("10:00", "11:00")],
+    "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
+    "Thursday":  [],
+    "Friday":    [("12:00", "12:10")],
+    "Saturday":  [("09:00", "10:00")],
+    "Sunday":    [("18:00", "19:00")],
+}
 
 class FurbyMotor:
     def __init__(self, motor_pin_dir1, motor_pin_dir2, enable_pin, button_pin):
@@ -138,6 +150,9 @@ class FurbyMotor:
 
     def close_mouth(self):
         self._start_closing()
+
+    def close_eyes(self):
+        self._start_opening(0.29)
 
     def stop_motor(self):
         self.motor.forward_device.on()
@@ -276,14 +291,14 @@ dialogue = {"neutral0":"Furby thinks you\nlook so bored",
             "sad0":"Why are you\nso sad?",
             "sad1":"Don't be sad!\nBe happy!",
             "disgust0":"Don't look at me\nlike I'm gross!",
-            "fear0":"AHHHHHH  ",
+            "fear0":"AHHHHHHH      ",
             "angry0":"      Why are we mad?",
             "happy0":"You look happy!\nI'm happy you're\nhappy!",
             "happy1":"Wow! I love\nthat smile\n",
             "happy2":"  We're so happy!",
             "happy3":"Keep smiling for\nme!  ",
-            "happy4":"Thank you for\nthat beutiful smile",
-            "surprise0":"",
+            "happy4":"Thank you for\nthat beautiful smile",
+            "surprise0":"Did I scare\nyou?",
             }
 
 sequences = {
@@ -326,6 +341,19 @@ sequences = {
     "fear0": [
         (0.0, furby.open_mouth),
         (2.0, furby.close_mouth)
+    ],
+    "sleep": [
+        (0.0, furby.open_mouth),
+        (0.25, furby.close_mouth),
+        (0.5, furby.open_mouth),
+        (0.75, furby.close_mouth),
+        (1.0, furby.open_mouth),
+        (1.25, furby.close_mouth),
+        (1.5, furby.open_close_mouth_blink),
+        (1.95, furby.close_mouth),
+        (2.2, furby.open_mouth),
+        (2.45, furby.close_mouth),
+        (2.45, furby.close_eyes),
     ]
 }
 
@@ -335,8 +363,8 @@ sd.default.latency = ('low', 'low')   # request smallest buffers
 sd.default.blocksize = 256            # tiny block size
 sd.default.channels = 1               # mono
 
-furby.calibrate()
-sound_player.play("awake")
+#furby.calibrate()
+#sound_player.play("awake")
 furby.start_update_thread()
 
 picam2 = Picamera2()
@@ -419,7 +447,66 @@ def process_emotion(emotion):
 
     return None
 
+def parse_time(tstr):
+    h, m = map(int, tstr.split(":"))
+    return time(hour=h, minute=m)
+
+def time_in_window(now, start_str, end_str):
+    start = parse_time(start_str)
+    end   = parse_time(end_str)
+    return start <= now <= end
+
+def check_if_time_in_window():
+    global active
+
+    now = datetime.now()
+    today = now.strftime("%A")
+    current_time = now.time()
+
+    windows = activation_schedule.get(today, [])
+
+    should_be_active = any(
+        time_in_window(current_time, start, end)
+        for start, end in windows
+    )
+
+    if should_be_active and not active:
+        active = True
+        on_activate()
+
+    elif not should_be_active and active:
+        active = False
+        on_deactivate()
+
+def on_activate():
+    while sound_player.is_playing():
+        time.sleep(0.05)
+    furby.calibrate()
+    sound_player.play("awake")
+    print("Activated")
+
+def on_deactivate():
+    while sound_player.is_playing():
+        time.sleep(0.05)
+    sound_player.play("sleep")
+    furby.load_sequence("sleep")
+    furby.start_sequence()
+    frame = np.zeros((1080, 1920, 3), dtype=np.uint8)
+    cv2.putText(frame, "Zzzzzz", (50, 200),
+        cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255, 255), 3)
+    cv2.imshow("Emotion Detection", frame)
+
+    while sound_player.is_playing():
+        time.sleep(0.05)
+    print("Deactivated")
+
 while True:
+    check_if_time_in_window()
+
+    if not active:
+        time.sleep(1.0)
+        continue
+    
     request = picam2.capture_request()
     
     index = 0
