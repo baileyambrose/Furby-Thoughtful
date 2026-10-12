@@ -272,8 +272,14 @@ class AudioBank:
 sound_player = AudioBank(sound_folder)
 
 dialogue = {"neutral0":"Furby thinks you\nlook so bored",
+            "sad0":"Why are you\nso sad?",
+            "disgust0":"Don't look at me\nlike I'm gross!",
+            "fear0":"AHHHHHH  ",
+            "angry0":"   Why are we mad?":,
             "happy0":"You look happy!\nI'm happy you're\nhappy!",
-            "fear0":"AHHHHHH",
+            "surprise0":"",
+            "happy1":"Wow! I love\nthat smile\n",
+            "happy2":"  We're so happy!"
             }
 
 sequences = {
@@ -351,7 +357,7 @@ def drawtext(frame, emotion):
     if emotion is None:
         return
     if emotion in dialogue:
-        tokens = re.split(r'(\s+)', dialogue[emotion])
+        tokens = re.split(r'( {2}|\s+)', dialogue[emotion])
         progress = sound_player.get_progress()
         progress = min(1.1*progress + 0.1, 1.0)
         num_tokens = int(len(tokens) * progress)
@@ -362,7 +368,8 @@ def drawtext(frame, emotion):
         #print(text)
         #print(lines)
         for i, line in enumerate(lines):
-            cv2.putText(frame, line, (450,90 + i*70),
+            cleaned_line = line.replace("  ", "")
+            cv2.putText(frame, cleaned_line, (450,90 + i*70),
                 cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 3)
 
 def process_emotion(emotion):
