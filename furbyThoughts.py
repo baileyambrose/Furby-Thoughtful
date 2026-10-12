@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "12:16"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "12:18"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -344,10 +344,6 @@ sequences = {
     ],
     "sleep": [
         (0.0, furby.open_mouth),
-        (0.25, furby.close_mouth),
-        (0.5, furby.open_mouth),
-        (0.75, furby.close_mouth),
-        (1.0, furby.open_mouth),
         (1.25, furby.close_mouth),
         (1.5, furby.open_close_mouth_blink),
         (1.95, furby.close_mouth),
@@ -640,6 +636,11 @@ while True:
             #testz()
             
             sleep(0.05)
+        else:
+            frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
+            cv2.putText(frame, "Zzzzzz", (150, 200),
+                cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
+            cv2.imshow("Emotion Detection", frame)
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
