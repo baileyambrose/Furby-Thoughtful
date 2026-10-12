@@ -511,7 +511,7 @@ while True:
             print("Triggered:", sustained)
             emotion = dominant_emotion[0]
             while emotion not in dialogue:
-                emotion = f"{dominant_emotion[0]}{random.randint(5)}"
+                emotion = f"{dominant_emotion[0]}{random.randint(0,5)}"
             trigger_emotion = emotion
             sound_player.play(trigger_emotion)
             furby.load_sequence(trigger_emotion)
