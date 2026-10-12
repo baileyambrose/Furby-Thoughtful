@@ -28,7 +28,7 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("09:00", "12:22"), ("18:00", "18:30")],
+    "Monday":    [("09:00", "12:25"), ("18:00", "18:30")],
     "Tuesday":   [("10:00", "11:00")],
     "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
     "Thursday":  [],
@@ -510,6 +510,10 @@ while True:
 
     if not active:
         sleep(1.0)
+        frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
+        cv2.putText(frame, "Zzzzzz", (150, 200),
+            cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
+        cv2.imshow("Emotion Detection", frame)
         continue
     
     request = picam2.capture_request()
@@ -636,12 +640,6 @@ while True:
             #testz()
             
             sleep(0.05)
-        else:
-            print("plot Zzzz")
-            frame = np.zeros((DISPLAY_H, DISPLAY_W, 3), dtype=np.uint8)
-            cv2.putText(frame, "Zzzzzz", (150, 200),
-                cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255, 255), 6)
-            cv2.imshow("Emotion Detection", frame)
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
