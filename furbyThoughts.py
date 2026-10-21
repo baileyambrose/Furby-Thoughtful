@@ -9,6 +9,8 @@ import random
 from datetime import datetime, time
 
 import os
+import signal
+import sys
 from gpiozero import Motor, Button
 from time import sleep, monotonic
 import sounddevice as sd
@@ -51,6 +53,15 @@ low_power_schedule = {
 }
 last_activation_time = 0.0
 INACTIVITY_PERIOD = 20.0
+
+force_shutdown = False
+
+def handle_sigterm(signum, frame):
+    global force_shutdown
+    force_shutdown = True
+    print("Received SIGTERM, shutting down...")
+
+signal.signal(signal.SIGTERM, handle_sigterm)
 
 class FurbyMotor:
     def __init__(self, motor_pin_dir1, motor_pin_dir2, enable_pin, button_pin):
@@ -510,7 +521,7 @@ def plot_sleep_screen():
     cv2.imshow("Emotion Detection", frame)
 
 
-while True:
+while not force_shutdown:
     check_if_time_in_window()
 
     if not active:
@@ -653,3 +664,5 @@ while True:
 cv2.destroyAllWindows()
 picam2.stop()
 furby.stop_update_thread()
+print("Exited loop cleanly.")
+sys.exit(0)
