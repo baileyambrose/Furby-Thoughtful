@@ -27,7 +27,7 @@ triggered = False
 
 trigger_emotion = None
 
-sound_folder = "sounds/"
+sound_folder = "/home/bailey/Furby-Thoughtful/sounds/"
 
 
 class FurbyMotor:
@@ -280,7 +280,7 @@ class AudioBank:
     
 sound_player = AudioBank(sound_folder)
 
-CONFIG_PATH = Path("animations.yaml")
+CONFIG_PATH = Path("/home/bailey/Furby-Thoughtful/animations.yaml")
 
 def load_config():
     with CONFIG_PATH.open("r", encoding="utf-8") as f:
