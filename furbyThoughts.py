@@ -619,12 +619,15 @@ while not force_shutdown:
             
             if sustained and not triggered:
                 print("Triggered:", sustained)
+                sleep(1.0)
                 emotion = dominant_emotion[0]
                 while emotion not in dialogue:
                     emotion = f"{dominant_emotion[0]}{random.randint(0,5)}"
                 trigger_emotion = emotion
                 sound_player.play(trigger_emotion)
+                print("playing sound")
                 furby.load_sequence(trigger_emotion)
+                print("sequence loaded")
                 furby.start_sequence()
                 triggered = True
                 sustained = None
