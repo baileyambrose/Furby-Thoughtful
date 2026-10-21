@@ -116,7 +116,7 @@ sequences:
     - [0.5, open_mouth]
     - [0.75, close_mouth]
     - [1.0, open_close_mouth_blink]
-    - [1.45, close_mouth]
+    - [1.55, close_mouth]
 
   sleep:
     - [0.0, open_mouth]
