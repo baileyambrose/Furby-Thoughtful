@@ -33,26 +33,26 @@ sound_folder = "sounds/"
 
 active = False
 activation_schedule = {
-    "Monday":    [("13:17", "13:38"), ("18:00", "18:30")],
-    "Tuesday":   [("10:00", "11:00")],
-    "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
-    "Thursday":  [],
-    "Friday":    [("12:00", "12:10")],
-    "Saturday":  [("09:00", "10:00")],
-    "Sunday":    [("18:00", "19:00")],
+    "Monday":    [("12:00", "19:00")],
+    "Tuesday":   [("12:00", "22:00")],#("12:00", "19:00")
+    "Wednesday": [("12:00", "19:00")],#("12:00", "19:00")
+    "Thursday":  [("12:00", "19:50")],
+    "Friday":    [("12:00", "19:00")],
+    "Saturday":  [("09:00", "21:30")],
+    "Sunday":    [("11:00", "17:10")],
 }
 sleeping = False
 low_power_schedule = {
-    "Monday":    [("09:00", "13:28"), ("18:00", "18:30")],
-    "Tuesday":   [("10:00", "11:00")],
-    "Wednesday": [("08:30", "09:15"), ("16:00", "17:00")],
-    "Thursday":  [],
-    "Friday":    [("12:00", "12:10")],
-    "Saturday":  [("09:00", "10:00")],
-    "Sunday":    [("18:00", "19:00")],
+    "Monday":    [("12:00", "19:00")],
+    "Tuesday":   [("12:00", "19:00")],
+    "Wednesday": [("12:00", "19:00")],
+    "Thursday":  [("12:00", "19:50")],
+    "Friday":    [("12:00", "19:00")],
+    "Saturday":  [],
+    "Sunday":    [],
 }
 last_activation_time = 0.0
-INACTIVITY_PERIOD = 20.0
+INACTIVITY_PERIOD = 60.0 * 20.0 #time to go low power after seeing no faces for this duration of seconds
 
 force_shutdown = False
 
@@ -65,7 +65,7 @@ signal.signal(signal.SIGTERM, handle_sigterm)
 
 class FurbyMotor:
     def __init__(self, motor_pin_dir1, motor_pin_dir2, enable_pin, button_pin):
-        # Motor(IN1, IN2, enable=EN)
+        #Motor(IN1, IN2, enable=EN)
         self.motor = Motor(motor_pin_dir1, motor_pin_dir2, enable=enable_pin)
         self.button = Button(button_pin, pull_up=True, bounce_time=0.0005)
 
@@ -91,10 +91,10 @@ class FurbyMotor:
         self._update_thread_stop = False
 
     def start_update_thread(self, interval=0.01):
-        #Runs update() in a background thread at a fixed interval.
+        #Runs update() in a background thread at a fixed interval
 
         if self._update_thread is not None:
-            return  # already running
+            return  #already running
 
         self._update_thread_stop = False
 
@@ -213,7 +213,7 @@ class FurbyMotor:
             #self.stop_motor()
             elapsed = now - self.motor_stop_time
             if elapsed >= 0.05:
-                # Manual brake: both inputs HIGH
+                #Manual brake: both inputs HIGH
                 self.motor.forward_device.on()
                 self.motor.backward_device.on()
                 self.is_stopping = False
@@ -226,7 +226,7 @@ class FurbyMotor:
                 event_fn()
                 self.sequence_index += 1
 
-            # If finished
+            #if finished
             if self.sequence_index >= len(self.sequence):
                 self.sequence_active = False
                 print("Sequence finished")
@@ -239,7 +239,7 @@ class AudioBank:
         self.stream = None
         self.remaining = None
 
-        # Load supported audio formats
+        #load supported audio formats
         exts = (".wav", ".mp3", ".flac", ".ogg")
         for fname in os.listdir(folder):
             if fname.lower().endswith(exts):
@@ -259,13 +259,13 @@ class AudioBank:
 
         self.total_samples = len(data)
 
-        # Prepare playback buffer
+        #prepare playback buffer
         self.remaining = np.copy(data)
 
-        # Determine channel count
+        #determine channel count
         channels = data.shape[1] if data.ndim > 1 else 1
 
-        # Create a controllable OutputStream
+        #create a controllable OutputStream
         self.stream = sd.OutputStream(
             samplerate=sr,
             channels=channels,
