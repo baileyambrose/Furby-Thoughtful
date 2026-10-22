@@ -181,12 +181,12 @@ sequences:
     - [1.45, close_mouth]
     - [1.9, open_mouth]
     - [2.15, close_mouth]
-    - [2.65, open_close_mouth_blink]
-    - [3.1, close_mouth]
-    - [3.4, open_mouth]
-    - [3.65, close_mouth]
-    - [3.9, open_mouth]
-    - [4.25, close_mouth]
+    - [2.4, open_close_mouth_blink]
+    - [2.85, close_mouth]
+    - [3.3, open_mouth]
+    - [3.55, close_mouth]
+    - [3.8, open_mouth]
+    - [4.05, close_mouth]
 
   surprise0:
     - [0.0, open_mouth]
