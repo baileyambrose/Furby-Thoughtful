@@ -39,20 +39,20 @@ sound_folder = "/home/bailey/Furby-Thoughtful/sounds/"
 active = False
 activation_schedule = {
     "Monday":    [("12:00", "19:00")],
-    "Tuesday":   [("12:00", "22:00")],#("12:00", "19:00")
-    "Wednesday": [("12:00", "22:45")],#("12:00", "19:00")
-    "Thursday":  [("12:00", "19:50")],
+    "Tuesday":   [("12:00", "19:00")],#("12:00", "19:00")
+    "Wednesday": [("12:00", "19:00")],#("12:00", "19:00")
+    "Thursday":  [("12:00", "19:00")],
     "Friday":    [("12:00", "19:00")],
     "Saturday":  [("09:00", "21:30")],
     "Sunday":    [("11:00", "17:10")],
 }
 sleeping = False
 low_power_schedule = {
-    "Monday":    [("12:00", "19:00")],
-    "Tuesday":   [("12:00", "19:00")],
-    "Wednesday": [("12:00", "19:00")],
-    "Thursday":  [("12:00", "19:50")],
-    "Friday":    [("12:00", "19:00")],
+    "Monday":    [("12:20", "19:00")],
+    "Tuesday":   [("12:20", "19:00")],
+    "Wednesday": [("12:20", "19:00")],
+    "Thursday":  [("12:20", "19:00")],
+    "Friday":    [("12:20", "19:00")],
     "Saturday":  [],
     "Sunday":    [],
 }
