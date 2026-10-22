@@ -142,6 +142,10 @@ sequences:
     - [3.35, close_mouth]
     - [3.9, open_mouth]
     - [4.0, close_mouth]
+    - [4.1, open_mouth]
+    - [4.2, close_mouth]
+    - [4.3, open_mouth]
+    - [4.4, close_mouth]
 
 
   surprise0:
