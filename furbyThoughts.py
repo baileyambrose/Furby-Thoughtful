@@ -22,7 +22,6 @@ from pathlib import Path
 
 # Emotion detector (FER uses a CNN trained on FER2013)
 emotion_detector = FER(mtcnn=False)
-last_emotions = {}
 current_emotion = None
 emotion_start_time = None
 HOLD_TIME = 1.0   
@@ -87,6 +86,8 @@ class FurbyMotor:
         self.sequence_start_time = 0.0
         self.sequence_index = 0
         self.sequence_active = False
+
+        self.last_variants = {}   #{"happy": [0, 3]}
 
         self._update_thread = None
         self._update_thread_stop = False
