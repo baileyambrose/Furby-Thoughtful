@@ -21,7 +21,9 @@ import yaml
 from pathlib import Path
 
 import subprocess
-subprocess.run(["xdotool", "mousemove", "0", "0"])
+
+# run unclutter in the background
+subprocess.Popen(["unclutter", "-idle", "0"])
 
 
 # Emotion detector (FER uses a CNN trained on FER2013)
