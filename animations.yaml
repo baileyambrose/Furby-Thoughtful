@@ -240,8 +240,6 @@ sequences:
     - [0.75, close_mouth]
     - [1.0, open_close_mouth_blink]
     - [1.45, close_mouth]
-    - [1.9, open_mouth]
-    - [2.15, close_mouth]
     - [2.4, open_close_mouth_blink]
     - [2.85, close_mouth]
     - [3.3, open_mouth]
