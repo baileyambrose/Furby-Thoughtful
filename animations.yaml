@@ -129,6 +129,15 @@ sequences:
     - [3.65, close_mouth]
     - [3.9, open_mouth]
     - [4.25, close_mouth]
+  happy1:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_close_mouth_blink]
+    - [0.95, close_mouth]
+    - [1.4, open_mouth]
+    - [1.65, close_mouth]
+    - [1.9, open_mouth]
+    - [2.25, close_mouth]
 
   surprise0:
     - [0.0, open_mouth]
