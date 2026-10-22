@@ -22,9 +22,8 @@ from pathlib import Path
 
 import subprocess
 
-# run unclutter in the background
+#run unclutter in the background to hide mouse
 subprocess.Popen(["unclutter", "-idle", "0"])
-
 
 # Emotion detector (FER uses a CNN trained on FER2013)
 emotion_detector = FER(mtcnn=False)
