@@ -166,12 +166,12 @@ sequences:
     - [1.95, close_mouth]
     - [2.2, open_mouth]
     - [2.45, close_mouth]
-    - [3.2, open_mouth]
-    - [3.3, close_mouth]
+    - [3.1, open_mouth]
+    - [3.25, close_mouth]
     - [3.4, open_mouth]
-    - [3.5, close_mouth]
-    - [3.6, open_mouth]
-    - [3.7, close_mouth]
+    - [3.55, close_mouth]
+    - [3.7, open_mouth]
+    - [3.85, close_mouth]
 
   surprise0:
     - [0.0, open_mouth]
