@@ -117,7 +117,6 @@ sequences:
     - [2.15, close_mouth]
     - [2.4, open_mouth]
     - [2.65, close_mouth]
-
   fear0:
     - [0.0, open_mouth]
     - [2.0, close_mouth]
