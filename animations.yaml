@@ -106,14 +106,14 @@ sequences:
   angry0:
     - [0.0, open_mouth]
     - [0.25, close_mouth]
-    - [0.5, open_mouth]
-    - [0.75, close_mouth]
-    - [1.0, open_mouth]
-    - [1.25, close_mouth]
-    - [1.5, open_close_mouth_blink]
-    - [1.95, close_mouth]
-    - [2.2, open_mouth]
-    - [2.45, close_mouth]
+    - [0.7, open_mouth]
+    - [0.95, close_mouth]
+    - [1.2, open_mouth]
+    - [1.45, close_mouth]
+    - [1.7, open_close_mouth_blink]
+    - [2.15, close_mouth]
+    - [2.5, open_mouth]
+    - [2.75, close_mouth]
   happy0:
     - [0.0, open_mouth]
     - [0.25, close_mouth]
@@ -185,8 +185,6 @@ sequences:
     - [2.85, close_mouth]
     - [3.3, open_mouth]
     - [3.6, close_mouth]
-
-
   surprise0:
     - [0.0, open_mouth]
     - [0.25, close_mouth]
