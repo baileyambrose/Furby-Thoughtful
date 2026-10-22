@@ -20,6 +20,10 @@ import re
 import yaml
 from pathlib import Path
 
+import subprocess
+subprocess.run(["xdotool", "mousemove", "9999", "9999"])
+
+
 # Emotion detector (FER uses a CNN trained on FER2013)
 emotion_detector = FER(mtcnn=False)
 current_emotion = None
