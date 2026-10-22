@@ -87,8 +87,6 @@ class FurbyMotor:
         self.sequence_index = 0
         self.sequence_active = False
 
-        self.last_variants = {}   #{"happy": [0, 3]}
-
         self._update_thread = None
         self._update_thread_stop = False
 
@@ -238,6 +236,7 @@ furby = FurbyMotor(20,21,16,12)
 class AudioBank:
     def __init__(self, folder):
         self.sounds = {}
+        self.last_variants = {}#{"happy": [0, 3]}
         self.stream = None
         self.remaining = None
 
