@@ -8,6 +8,7 @@ dialogue:
   disgust0: "Don't look at me\nlike I'm gross!"
   fear0: "AHHHHHHH"
   fear1: "AHHHHHHH"
+  fear2: "#*)^*#$"
   angry0: "Why are we mad?"
   happy0: "You look happy!\nI'm happy you're\nhappy!"
   happy1: "Wow! I love\nthat smile"
@@ -88,6 +89,9 @@ sequences:
     - [0.0, open_mouth]
     - [2.0, close_mouth]
   fear1:
+    - [0.0, open_mouth]
+    - [4.0, close_mouth]
+  fear2:
     - [0.0, open_mouth]
     - [4.0, close_mouth]
   angry0:
