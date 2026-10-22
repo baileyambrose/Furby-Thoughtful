@@ -242,8 +242,10 @@ sequences:
     - [1.35, close_mouth]
     - [2.1, open_close_mouth_blink]
     - [2.55, close_mouth]
-    - [3.3, open_mouth]
-    - [3.6, close_mouth]
+    - [3.0, open_mouth]
+    - [3.25, close_mouth]
+    - [3.4, open_mouth]
+    - [3.5, close_mouth]
 
   sleep:
     - [0.0, open_mouth]
