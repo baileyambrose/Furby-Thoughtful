@@ -153,6 +153,8 @@ sequences:
     - [0.6, close_mouth]
     - [1.0, open_close_mouth_blink]
     - [1.45, close_mouth]
+    - [1.9, open_close_mouth_blink]
+    - [2.35, close_mouth]
 
   surprise0:
     - [0.0, open_mouth]
