@@ -146,7 +146,7 @@ sequences:
     - [4.2, close_mouth]
     - [4.3, open_mouth]
     - [4.45, close_mouth]
-happy2:
+  happy2:
     - [0.0, open_mouth]
     - [0.25, close_mouth]
     - [0.5, open_mouth]
