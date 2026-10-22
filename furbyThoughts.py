@@ -22,6 +22,7 @@ from pathlib import Path
 
 # Emotion detector (FER uses a CNN trained on FER2013)
 emotion_detector = FER(mtcnn=False)
+last_emotions = {}
 current_emotion = None
 emotion_start_time = None
 HOLD_TIME = 1.0   
@@ -35,7 +36,7 @@ active = False
 activation_schedule = {
     "Monday":    [("12:00", "19:00")],
     "Tuesday":   [("12:00", "22:00")],#("12:00", "19:00")
-    "Wednesday": [("12:00", "19:00")],#("12:00", "19:00")
+    "Wednesday": [("12:00", "22:00")],#("12:00", "19:00")
     "Thursday":  [("12:00", "19:50")],
     "Friday":    [("12:00", "19:00")],
     "Saturday":  [("09:00", "21:30")],
@@ -146,7 +147,7 @@ class FurbyMotor:
         elif self.is_closing:
             elapsed = now - self.motor_start_time
             if elapsed > 0.05:
-                print(f"{now} reverse motor (closing, switch pressed)")
+                #print(f"{now} reverse motor (closing, switch pressed)")
                 self.motor.backward()
                 self.is_closing = False
                 self.is_stopping = True
@@ -301,15 +302,32 @@ class AudioBank:
         if self.remaining is None or self.stream is None:
             return 0.0
 
-        # total samples (mono or stereo)
+        #total samples (mono or stereo)
         total = self.total_samples
 
-        # remaining samples
+        #remaining samples
         remaining = len(self.remaining)
 
-        # fraction played
+        #fraction played
         played = 1.0 - (remaining / total)
         return max(0.0, min(1.0, played))
+
+    def pick_variant(self, emotion):
+        #selects emotionX, avoiding the last 2 variants
+
+        history = self.last_variants.get(emotion, [])
+
+        for i in range(100): #loops finite amount of times if it can't find a valid, non repeat audio file
+            v = random.randint(0, 5)
+            name = f"{emotion}{v}.mp3"
+            if v not in history and name in self.sounds:
+                #Update history: append new, keep only last 2
+                history.append(v)
+                if len(history) > 2:
+                    history.pop(0)
+                self.last_variants[emotion] = history
+                return f"{emotion}{v}"
+        return f"{emotion}0"
     
 sound_player = AudioBank(sound_folder)
 
@@ -484,11 +502,11 @@ def check_if_low_power(today, current_time):
         inactivity = True
 
     if in_sleep_window and inactivity and not sleeping:
-        print(f"inactive for {INACTIVITY_PERIOD}s, sleeping...")
+        print(f"{now} inactive for {INACTIVITY_PERIOD}s, sleeping...")
         sleeping = True
         furby.close_eyes()
     elif sleeping and not inactivity:
-        print(f"activity detected, waking up")
+        print(f"{now} activity detected, waking up")
         sleeping = False
 
     elif not in_sleep_window and sleeping:
@@ -621,13 +639,12 @@ while not force_shutdown:
             if sustained and not triggered:
                 print("Triggered:", sustained)
                 emotion = dominant_emotion[0]
-                while emotion not in dialogue:
-                    emotion = f"{dominant_emotion[0]}{random.randint(0,5)}"
+                emotion = sound_player.pick_variant(emotion)
                 trigger_emotion = emotion
                 sound_player.play(trigger_emotion)
-                print("playing sound")
+                #print("playing sound")
                 furby.load_sequence(trigger_emotion)
-                print("sequence loaded")
+                #print("sequence loaded")
                 furby.start_sequence()
                 triggered = True
                 sustained = None
