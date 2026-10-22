@@ -11,6 +11,8 @@ dialogue:
   fear1: "AHHHHHHH    "
   fear2: "#  *  8  )  ^  *  #  $  %  (  9  #  3  6\n^  &  1  %  @  #  7  &  (  )  *  4  !  0\n&  *  ^  7  )  $  %  3  ^  4  &  #  @  #\n$  %  5  4  3  ^  $  #  %  ^  6  &  *  ("
   angry0: "  Why are we mad?"
+  angry1: "Your anger is\nmisplaced!"
+  angry2: "You can't stay\nmad at a Furby"
   happy0: "You look happy!\nI'm happy you're\nhappy!"
   happy1: "Wow! I love\nthat smile"
   happy2: "We're so happy!"
@@ -113,6 +115,24 @@ sequences:
     - [0.0, open_mouth]
     - [4.0, close_mouth]
   angry0:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.7, open_mouth]
+    - [0.95, close_mouth]
+    - [1.2, open_close_mouth_blink]
+    - [1.65, close_mouth]
+    - [1.9, open_mouth]
+    - [2.05, close_mouth]
+  angry1:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.7, open_mouth]
+    - [0.95, close_mouth]
+    - [1.2, open_close_mouth_blink]
+    - [1.65, close_mouth]
+    - [1.9, open_mouth]
+    - [2.05, close_mouth]
+  angry2:
     - [0.0, open_mouth]
     - [0.25, close_mouth]
     - [0.7, open_mouth]
