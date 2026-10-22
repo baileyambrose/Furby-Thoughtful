@@ -7,6 +7,7 @@ dialogue:
   sad2: "You look lonely.\nI can fix that"
   disgust0: "Don't look at me\nlike I'm gross!"
   disgust1: "What did I do?"
+  disgust2: "Is that face\nreally called for?"
   fear0: "AHHHHHHH    "
   fear1: "AHHHHHHH    "
   fear2: "#  *  8  )  ^  *  #  $  %  (  9  #  3  6\n^  &  1  %  @  #  7  &  (  )  *  4  !  0\n&  *  ^  7  )  $  %  3  ^  4  &  #  @  #\n$  %  5  4  3  ^  $  #  %  ^  6  &  *  ("
@@ -105,6 +106,19 @@ sequences:
     - [0.95, close_mouth]
     - [1.3, open_mouth]
     - [1.55, close_mouth]
+  disgust2:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_close_mouth_blink]
+    - [1.45, close_mouth]
+    - [1.9, open_mouth]
+    - [2.15, close_mouth]
+    - [2.4, open_close_mouth_blink]
+    - [2.85, close_mouth]
+    - [3.3, open_mouth]
+    - [3.6, close_mouth]
 
   fear0:
     - [0.0, open_mouth]
