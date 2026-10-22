@@ -132,8 +132,8 @@ sequences:
   happy1:
     - [0.0, open_mouth]
     - [0.7, close_mouth]
-    - [0.9, open_close_mouth_blink]
-    - [1.35, close_mouth]
+    - [1.1, open_close_mouth_blink]
+    - [1.55, close_mouth]
     - [1.7, open_mouth]
     - [1.95, close_mouth]
 
