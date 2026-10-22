@@ -197,10 +197,9 @@ sequences:
     - [1.75, close_mouth]
     - [2.05, open_mouth]
     - [2.3, close_mouth]
-    - [2.55, open_mouth]
+    - [2.45, open_mouth]
     - [2.8, close_mouth]
-    - [3.1, open_mouth]
-    - [3.35, close_mouth]
+
 
   sleep:
     - [0.0, open_mouth]
