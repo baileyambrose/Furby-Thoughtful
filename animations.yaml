@@ -133,7 +133,7 @@ sequences:
     - [1.8, open_mouth]
     - [2.05, close_mouth]
     - [2.3, open_mouth]
-    - [2.55, close_mouth]
+    - [2.65, close_mouth]
   angry2:
     - [0.0, open_mouth]
     - [0.25, close_mouth]
