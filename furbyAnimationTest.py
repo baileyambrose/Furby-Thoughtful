@@ -27,6 +27,8 @@ triggered = False
 
 trigger_emotion = None
 
+last_animation = None
+
 sound_folder = "/home/bailey/Furby-Thoughtful/sounds/"
 
 
@@ -326,14 +328,18 @@ while True:
     if name.lower() in ("quit", "exit"):
         break
 
+    if name == "" and last_animation is not None:
+        name = last_animation
+
     if name in dialogue:
-        print("\nDialogue:")
         print(dialogue[name])
 
-    sound_player.play(name)
-    furby.load_sequence(name)
-    furby.start_sequence()
-    while sound_player.is_playing():
-        sleep(0.05)
+        sound_player.play(name)
+        furby.load_sequence(name)
+        furby.start_sequence()
+        while sound_player.is_playing():
+            sleep(0.05)
+    else:
+        print(f"animation {name} not found")
 
 furby.stop_update_thread()
