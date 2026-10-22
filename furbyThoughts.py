@@ -343,6 +343,7 @@ dialogue, sequences = load_config()
 
 furby.load_sequences(sequences)
 
+sd.default.device = ('sysdefault', None) # force the default output device (systemd)
 sd.default.latency = ('low', 'low')   # request smallest buffers
 sd.default.blocksize = 256            # tiny block size
 sd.default.channels = 1               # mono
@@ -619,7 +620,6 @@ while not force_shutdown:
             
             if sustained and not triggered:
                 print("Triggered:", sustained)
-                sleep(1.0)
                 emotion = dominant_emotion[0]
                 while emotion not in dialogue:
                     emotion = f"{dominant_emotion[0]}{random.randint(0,5)}"
