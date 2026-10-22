@@ -172,6 +172,21 @@ sequences:
     - [3.55, close_mouth]
     - [3.7, open_mouth]
     - [3.85, close_mouth]
+  happy4:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_close_mouth_blink]
+    - [1.45, close_mouth]
+    - [1.9, open_mouth]
+    - [2.15, close_mouth]
+    - [2.65, open_close_mouth_blink]
+    - [3.1, close_mouth]
+    - [3.4, open_mouth]
+    - [3.65, close_mouth]
+    - [3.9, open_mouth]
+    - [4.25, close_mouth]
 
   surprise0:
     - [0.0, open_mouth]
