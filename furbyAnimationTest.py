@@ -337,6 +337,7 @@ while True:
         sound_player.play(name)
         furby.load_sequence(name)
         furby.start_sequence()
+        last_animation = name
         while sound_player.is_playing():
             sleep(0.05)
     else:
