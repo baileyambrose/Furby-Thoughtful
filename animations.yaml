@@ -48,7 +48,7 @@ sequences:
     - [1.4, open_mouth]
     - [1.65, close_mouth]
     - [1.9, open_mouth]
-    - [2.15, close_mouth]
+    - [2.25, close_mouth]
 
   sad0:
     - [0.0, open_mouth]

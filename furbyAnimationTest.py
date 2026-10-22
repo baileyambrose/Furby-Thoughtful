@@ -325,7 +325,7 @@ print("Available animations:", ", ".join(sequences.keys()))
 while True:
     name = input("\nAnimation> ").strip()
 
-    if name.lower() in ("quit", "exit"):
+    if name.lower() in ("quit", "exit", "q"):
         break
 
     if name == "" and last_animation is not None:
