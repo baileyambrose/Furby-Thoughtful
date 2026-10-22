@@ -6,10 +6,11 @@ dialogue:
   sad1: "Don't be sad!\nBe happy!"
   sad2: "You look lonely.\nI can fix that"
   disgust0: "Don't look at me\nlike I'm gross!"
+  disgust1: "What did I do?"
   fear0: "AHHHHHHH    "
   fear1: "AHHHHHHH    "
   fear2: "#  *  8  )  ^  *  #  $  %  (  9  #  3  6\n^  &  1  %  @  #  7  &  (  )  *  4  !  0\n&  *  ^  7  )  $  %  3  ^  4  &  #  @  #\n$  %  5  4  3  ^  $  #  %  ^  6  &  *  ("
-  angry0: "Why are we mad?"
+  angry0: "  Why are we mad?"
   happy0: "You look happy!\nI'm happy you're\nhappy!"
   happy1: "Wow! I love\nthat smile"
   happy2: "We're so happy!"
@@ -94,6 +95,15 @@ sequences:
     - [1.95, close_mouth]
     - [2.2, open_mouth]
     - [2.45, close_mouth]
+  disgust1:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_mouth]
+    - [1.25, close_mouth]
+    - [2.0, open_close_mouth_blink]
+    - [2.5, close_mouth]
   fear0:
     - [0.0, open_mouth]
     - [2.0, close_mouth]
@@ -199,7 +209,6 @@ sequences:
     - [2.3, close_mouth]
     - [2.45, open_mouth]
     - [2.8, close_mouth]
-
 
   sleep:
     - [0.0, open_mouth]
