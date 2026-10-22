@@ -14,7 +14,7 @@ dialogue:
   happy1: "Wow! I love\nthat smile"
   happy2: "We're so happy!"
   happy3: "Keep smiling for\nme!"
-  happy4: "Thank you for\nthat beautiful smile"
+  happy4: "Thank you for\nthat beautiful\nsmile"
   surprise0: "Did I scare\nyou?"
   surprise0: "Boo!\nHappy Halloween!"
 
@@ -155,6 +155,17 @@ sequences:
     - [1.45, close_mouth]
     - [1.9, open_close_mouth_blink]
     - [2.35, close_mouth]
+  happy3:
+    - [0.0, open_mouth]
+    - [0.25, close_mouth]
+    - [0.5, open_mouth]
+    - [0.75, close_mouth]
+    - [1.0, open_mouth]
+    - [1.25, close_mouth]
+    - [1.5, open_close_mouth_blink]
+    - [1.95, close_mouth]
+    - [2.2, open_mouth]
+    - [2.45, close_mouth]
 
   surprise0:
     - [0.0, open_mouth]
